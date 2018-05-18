@@ -2,7 +2,7 @@ import fetch from './fetch'
 import {lsGet} from '../helper/utils'
 
 
-export const api = {
+export const API = {
   /**
    * 获取用户信息
    */

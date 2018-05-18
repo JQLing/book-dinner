@@ -1,5 +1,5 @@
-import {baseUrl} from '/config/env'
-export default async(url= '', data = {}, type = 'GET', method = 'fetch') {
+import {baseUrl} from '../../config/env'
+export default async (url= '', data = {}, type = 'GET', method = 'fetch') => {
   type = type.toUpperCase();
   url = baseUrl + url;
   if(type == 'GET') {

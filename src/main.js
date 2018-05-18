@@ -6,9 +6,17 @@ import store from './store/'
 // import FastClick from 'fastclick'
 
 import Head from '@/components/Head'
+import * as helper from '@/helper/utils'
+import * as api from '@/service/api'
+
 Vue.components = {
   Head
 }
+Vue.mixin({
+  helper,
+  api
+})
+
 new Vue({
   el: '#app',
   router,

@@ -1,10 +1,10 @@
 <template lang="pug">
   header
     slot(name="login")
+    slot(name="changecity")
     slot(name="search")
     slot(naem="edit")
     slot(name="msite-title")
-    slot(name="changecity")
     slot(name="changeLogin")
 
 </template>
