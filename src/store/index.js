@@ -4,7 +4,7 @@ import actions from './action'
 import mutations from './mutations'
 import getters from './getters'
 
-Vue.use('Vuex');
+Vue.use(Vuex);
 
 const state = {
   latitude: '', // 当前位置纬度

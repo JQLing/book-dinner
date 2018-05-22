@@ -1,8 +1,8 @@
 <template lang="pug">
   .page.city_page
-    Head
+    head
       router-link(slot="changecity" :to="{name:'Home'}") 切换城市
-    form(v-on:submit.prevent)
+    form
       input(v-model="address" type="search" name="city" placeholder="输入学校、商务楼、地址" required)
       input(@click="position" type="submit" name="submit" value="提交")
     ul(v-if="addressList.length")
@@ -49,7 +49,7 @@ export default {
       currentcity(this.cityId).then(r => {
         this.cityName = r.name;
       });
-      this.addressHistory = this.$helper.lsGet('addressHistory');
+      this.addressHistory = this.$storage.lsGet('addressHistory');
     },
     //点击提交
     position(){
@@ -68,25 +68,26 @@ export default {
      */
     goDetail(index) {
       let chooseAddress = this.addressList[index];
-      let history = this.$helper.lsGet('addressHistory');
+      let history = this.$storage.lsGet('addressHistory');
       if(history) {
-        history.forEach((item, i) => {
+        history.every((item, i) => {
           if(item.geohash == chooseAddress.geohash) {
-            break;
+            // return false跳出循环, return true继续循环
+            return false;
           }
           if(item.geohash != chooseAddress.geohash && i == history.length-1) {
             this.addressHistory.push(chooseAddress)
           }
         });
       }
-      this.$helper.lsSet('addressHistory', this.addressHistory);
+      this.$storage.lsSet('addressHistory', this.addressHistory);
       this.$router.push({
         name: 'Msite',
         query: {geohash: chooseAddress.geohash}
       })
     },
     clearAll() {
-      this.$helper.lsRemove('addressHistory');
+      this.$storage.lsRemove('addressHistory');
       this.fetchData();
     }
   }

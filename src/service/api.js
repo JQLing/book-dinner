@@ -1,12 +1,12 @@
 import fetch from './fetch'
-import {lsGet} from '../helper/utils'
+// import {lsGet} from '../helper/storage'
 
 
-export const API = {
+const Api = {
   /**
    * 获取用户信息
    */
-  getUser: () => fetch('/v1/user', {user_id: lsGet('user_id')}),
+  getUser: () => fetch('/v1/user', {user_id: this.$storage.lsGet('user_id')}),
   /**
    * 获取首页默认地址
    */
@@ -36,16 +36,23 @@ export const API = {
    */
   msiteAddress: geohash => fetch('/v2/pois/'+geohash),
   /**
-   * 获取msite页面食品分类列表
+   * 获取msite页面 食品分类 列表
    */
   msiteFoodTypes: geohash => fetch('/v2/index_entry', {
     geohash,
     group_type: '1',
     'flags[]': 'F'
   }),
-
+  /**
+   * 获取msite商铺列表
+   */
+  // shopList: 
+  /**
+   * 获取search页面搜索结果
+   */
   /**
   *个人中心-编辑地址
   */
  getAddressList: (user_id) => fetch('/v1/users/'+ user_id +'/addresses')
 };
+export default Api;

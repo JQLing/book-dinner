@@ -1,12 +1,15 @@
 import {
 	GET_USERINFO,
-	SAVE_ADDRESS
+  SAVE_ADDRESS,
+  SAVE_GEOHASH,
+  RECORD_ADDRESS
 } from './mutation-types.js'
 
 
 export default {
   //获取用户信息存入vuex
   [GET_USERINFO](state, info) {
+    console.log('info' + info);
     if(state.userInfo && state.userInfo.username != info.username) {
       return;
     }
@@ -21,6 +24,17 @@ export default {
   },
   //删除地址列表
   [SAVE_ADDRESS](state, newAdress) {
+    console.log('newAdress' + newAdress);
     state.removeAddress = newAdress;
+  },
+  //保存geohash
+  [SAVE_GEOHASH](state, geohash) {
+    state.geohash = geohash;
+  },
+  //记录当前经度纬度
+  [RECORD_ADDRESS](state, {latitude, longitude}) {
+    console.log('latitude'+latitude +'---longitude' +longitude);
+    state.latitude = latitude;
+    state.longitude = longitude;
   }
 }
