@@ -1,5 +1,5 @@
 <template lang="pug">
-  .page.msite_page
+  .page.shop_page
     head
       router-link(slot="search" :to="{name:'Search'}") 搜索美食
       router-link(slot="msite-title" :to="{name:'Home'}") {{msiteTitle}}
@@ -20,7 +20,7 @@
       shop-list(v-if="hasGetData" :geohash = "geohash")
     foot
 </template>
-<style lang="scss" src="./msite.scss" scoped></style>
+<style lang="scss" src="./shop.scss" scoped></style>
 
 <script>
 import {mapMutations} from 'vuex'
@@ -30,7 +30,7 @@ import '@/assets/js/swiper.min.js'
 import shopList from '@/components/shopList'
 
 export default {
-  name: 'Msite',
+  name: 'Shop',
   data () {
     return {
       geohash: '',                    // city页面传递过来的地址geohash

@@ -6,6 +6,7 @@ import City from '@/pages/city/city'
 import Msite from '@/pages/msite/msite'
 import Search from '@/pages/search/search'
 import Food from '@/pages/food/food'
+import Shop from '@/pages/shop/shop'
 import Order from '@/pages/order/order'
 import Profile from '@/pages/profile/profile'
 
@@ -53,7 +54,31 @@ export default new Router({
           name: 'Food',
           component: Food
         },
-        //商铺详情页
+        // 商铺详情页
+        {
+          path: '/shop',
+          name: 'Shop',
+          component: Shop,
+          children: [
+            {
+              path: 'foodDetail',    //食品详情页
+              name: 'FoodDetail',
+              component: FoodDetail
+            },
+            {
+              path: 'shopDetail',    //商铺详情页
+              name: 'ShopDetail',
+              component: ShopDetail,
+              children: [
+                {
+                  path: 'shopSafe',    //商铺安全认证页
+                  name: 'ShopSafe',
+                  component: ShopSafe,
+                }
+              ]
+            }
+          ]
+        },
         //
         {
           path: '/order',

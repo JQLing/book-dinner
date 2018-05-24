@@ -46,7 +46,27 @@ const Api = {
   /**
    * 获取msite商铺列表
    */
-  // shopList: 
+  shopList: (latitude, longitude, offset, restaurant_category_id='', restaurant_category_ids='', order_by='', delivery_mode='', support_ids=[]) => {
+    let str = '';
+    support_ids.forEach(item => {
+      if(item.status) {
+        str += '&support_ids[]=' + item.id;
+      }
+    });
+    let param = {
+      latitude,
+		  longitude,
+      offset,
+      limit: '20',
+      'extras[]': 'activities',
+      keyword: '',
+      restaurant_category_id,
+      'restaurant_category_ids[]': restaurant_category_ids,
+      order_by,
+      'delivery_mode[]': delivery_mode + str
+    };
+    return fetch('/shopping/restaurants', param);
+  },
   /**
    * 获取search页面搜索结果
    */
