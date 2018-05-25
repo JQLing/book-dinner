@@ -25,7 +25,7 @@ export default {
     return {
       searchVal: '',
       history: false,
-      emptyResult: false,
+      emptyResult: true,
     }
   },
   mounted () {
@@ -40,6 +40,7 @@ export default {
     checkInput() {
       if(!searchVal) {
         this.history = true;     //显示历史记录
+        this.emptyResult = false; //隐藏搜索为空提示
       }
     },
   }
