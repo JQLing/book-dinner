@@ -1,6 +1,6 @@
 <template lang="pug">
   .shop_list
-    ul(v-if="shopList.length" type="1")
+    ul(v-load-more="loaderMore" v-if="shopList.length" type="1")
       router-link(v-for="(item, index) in shopList" :to={name:'Shop', {query:geohash, id: item.id}} :key="index" tag="li")
         img.shop_img(:src="imgBaseUrl + item.image_path")
         .con
@@ -39,7 +39,7 @@
 import {mapState} from 'vuex'
 import {imgBaseUrl} from '/config/env'
 // 指令
-// import {loadMore} from './mixin'
+import {loadMore} from './mixin'
 // 组件
 import ratingStar from './ratingStar'
 import loading from './loading'
@@ -58,21 +58,25 @@ export default {
       preventRepeatReuqest: false   //到达底部加载数据，防止重复加载
     }
   },
-  props: ['restaurantCategoryId'],
+  props: ['restaurantCategoryId', 'restaurantCategoryIds', 'sortByType', 'deliveryMode', 'supportIds', 'confirmSelect', 'geohash'],
   computed: {
     ...mapState([
       'latitude', 'longitude'
     ])
   },
   mixin: {
-    
-  },
-  watch: {
-
+    loadMore
   },
   components: {
     loading,
 		ratingStar
+  },
+  watch: {
+    restaurantCategoryIds: this.listenPropChange,
+    //监听父级传来的排序方式
+    sortByType: this.listenPropChange,
+    //监听父级的确认按钮是否被点击，并且返回一个自定义事件通知父级，已经接收到数据，此时父级才可以清除已选状态
+    confirmSelect: this.listenPropChange
   },
   mounted () {
     this.fetchData();
@@ -106,14 +110,42 @@ export default {
     },
     //到达底部加载更多数据
     async loaderMore(){
-
+      if(this.touchend) {
+        return
+      }
+      //（请求中）防止重复请求
+      if(this.preventRepeatReuqest) {
+        return
+      }
+      this.showLoading = true;
+      // 请求中
+      this.preventRepeatReuqest = true;
+      //数据的定位:加20位
+      this.offset += 20;
+      let r = await shopList(this.latitude, this.longitude, this.offset, this.restaurantCategoryId);
+      this.showLoading = false;
+      this.shopList = [...this.shopList, ...r];
+      //当获取数据小于20，说明没有更多数据，不需要再次请求数据
+      if(r.length < 20) {
+        this.touchend = true;
+        return
+      }
+      // 请求结束，可以再次请求
+      this.preventRepeatReuqest = false;
     },
     //返回顶部
     backTop() {
       animate(document.body, {scrollTop: '0'}, 400, 'ease-out');
     },
     //监听父级传来的数据发生变化时，触发此函数重新根据属性值获取数据
-    async listenPropChange(){}
+    async listenPropChange(){
+      this.showLoading = true;
+      this.offset = 0;
+      let r = await shopList(this.latitude, this.longitude, this.offset, '', this.restaurantCategoryIds, this.sortByType, this.deliveryMode, this.supportIds);
+			this.showLoading = false;
+			//考虑到本地模拟数据是引用类型，所以返回一个新的数组
+			this.shopList = [...r];
+    }
   }
 }
 </script>

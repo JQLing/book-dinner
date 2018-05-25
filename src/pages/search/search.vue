@@ -1,30 +1,17 @@
 <template lang="pug">
   .page.search_page
     Head
-      router-link(:to="{name:'Search'}") 搜索美食
-      router-link(slot="msite-title" :to="{name:'Home'}") {{msiteTitle}}
-    ul
-      li(v-for="(item, index) in foodClass" :key="index")
-        .img(:src="item.image_url")
-        p {{item.title}}
-    .nearby
-      .title
-        .img()
-        p 附近商家
+      router-link(:to="{name:'Msite'}") <
+      router-link(slot="search") {{}}
+    form.search
+      input(type="search" v-model="searchVal" @input="checkInput" name="search" placeholder="请输入商家或美食名称")
+      input(type="submit" value="提交" @click.prevent="searchTarget('')")
+    section(v-if="history")
+      h4.history 搜索历史
       ul
-        li(v-for="")
-          .img()
-          .con
-            p
-              span.brand 品牌
-              span {{}}
-              span {{}}
-            .rate
-            p
-              span {{}}
-              span {{}}
-              span {{}}
-              span.tiem {{}}
+        li(v-for="" :key="")
+    p.search_none(v-if="emptyResult") 很抱歉！无搜索结果
+    foot
 
     
 
@@ -32,35 +19,29 @@
 <style lang="scss" src="./search.scss" scoped></style>
 
 <script>
-// import {cityGuess, hotcity, groupcity} from '@/service/api'
 export default {
   name: 'Search',
   data () {
     return {
-      geohash: '',
-      msiteTitle: '',
-      foodClass: [],
-      shopList: []
+      searchVal: '',
+      history: false,
+      emptyResult: false,
     }
   },
   mounted () {
-    this.fetchData();
   },
   computed: {
   },
   methods: {
-    fetchData() {
-      this.geohash = this.$route.geohash;
-      this.$storage.msiteAddress(this.geohash).then(r => {
-        this.msiteTitle = r.name;
-      });
-      // 食品分类 列表
-      this.$storage.msiteFoodTypes(this.geohash).then(r => {
-        this.foodClass = r;
-      });
-      // 商家 列表
-
-    }
+    searchTarget() {
+      this.emptyResult = true;
+    },
+    //搜索结束后，删除搜索内容直到为空时清空搜索结果，并显示历史记录
+    checkInput() {
+      if(!searchVal) {
+        this.history = true;     //显示历史记录
+      }
+    },
   }
 }
 </script>
