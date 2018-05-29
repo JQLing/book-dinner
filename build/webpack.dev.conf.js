@@ -52,6 +52,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
     new webpack.NoEmitOnErrorsPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
+    // 默认情况下，build后的index.html中，js的引入是在head中，使用html-webpack-plugin插件，将inject的值改为body。就可以将js引入放到body最后
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.html',

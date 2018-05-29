@@ -1,4 +1,4 @@
-import {baseUrl} from '../../config/env'
+import {imgBaseUrl} from '@/assets/js/env'
 export default async (url= '', data = {}, type = 'GET', method = 'fetch') => {
   type = type.toUpperCase();
   url = baseUrl + url;

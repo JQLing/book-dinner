@@ -1,19 +1,35 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+// https://www.cnblogs.com/wong-do/p/9059540.html
+// https://blog.csdn.net/zjsfdx/article/details/80432793
+
+// import Vue from 'vue'
+// import Router from 'vue-router'
 import App from '../App'
-import Home from '@/pages/home/home'
-import City from '@/pages/city/city'
-import Msite from '@/pages/msite/msite'
-import Search from '@/pages/search/search'
-import Food from '@/pages/food/food'
-import Shop from '@/pages/shop/shop'
-import Order from '@/pages/order/order'
-import Profile from '@/pages/profile/profile'
+// import Home from '@/pages/home/home'
+// import City from '@/pages/city/city'
+// import Msite from '@/pages/msite/msite'
+// import Search from '@/pages/search/search'
+// import Food from '@/pages/food/food'
+// import Shop from '@/pages/shop/shop'
+// import Order from '@/pages/order/order'
+// import Profile from '@/pages/profile/profile'
+// Vue.use(Router)
 
-Vue.use(Router)
+/**  JS文件按需加载 :(按模块划分 懒加载 )
+ * 如果没有这个设置，项目首屏加载时会加载整个网站所有的JS文件，所以将JS文件拆开，点击某个页面时再加载该页面的JS是一个很好的优化方法。 
+ * 这里用到的就是vue的组件懒加载。在router.js中，不要使用import的方法引入组件，使用require.ensure
+ * eg: 如果写了第二个参数home，就打包到该`JS/home`的文件中,,,如果不写第二个参数，就直接打包在`JS`目录下。
+ */
+const Home = r => require.ensure([], () => r(require('../pages/home/home')), 'home')
+const City = r => require.ensure([], () => r(require('../pages/city/city')), 'city')
+const Msite = r => require.ensure([], () => r(require('../pages/msite/msite')), 'msite')
+const Search = r => require.ensure([], () => r(require('../pages/search/search')), 'search')
+const Food = r => require.ensure([], () => r(require('../pages/food/food')), 'food')
+const Shop = r => require.ensure([], () => r(require('../pages/shop/shop')), 'shop')
+const Order = r => require.ensure([], () => r(require('../pages/order/order')), 'order')
+const Profile = r => require.ensure([], () => r(require('../pages/profile/profile')), 'profile')
 
-export default new Router({
-  routes: [
+
+export default [
     {
       path: '/',
       component: App,
@@ -59,25 +75,25 @@ export default new Router({
           path: '/shop',
           name: 'Shop',
           component: Shop,
-          children: [
-            {
-              path: 'foodDetail',    //食品详情页
-              name: 'FoodDetail',
-              component: FoodDetail
-            },
-            {
-              path: 'shopDetail',    //商铺详情页
-              name: 'ShopDetail',
-              component: ShopDetail,
-              children: [
-                {
-                  path: 'shopSafe',    //商铺安全认证页
-                  name: 'ShopSafe',
-                  component: ShopSafe,
-                }
-              ]
-            }
-          ]
+          // children: [
+            // {
+            //   path: 'foodDetail',    //食品详情页
+            //   name: 'FoodDetail',
+            //   component: FoodDetail
+            // },
+            // {
+            //   path: 'shopDetail',    //商铺详情页
+            //   name: 'ShopDetail',
+            //   component: ShopDetail,
+            //   children: [
+            //     {
+            //       path: 'shopSafe',    //商铺安全认证页
+            //       name: 'ShopSafe',
+            //       component: ShopSafe,
+            //     }
+            //   ]
+            // }
+          // ]
         },
         //
         {
@@ -96,4 +112,3 @@ export default new Router({
     
     
   ]
-})

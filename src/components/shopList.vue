@@ -1,7 +1,7 @@
 <template lang="pug">
   .shop_list
     ul(v-load-more="loaderMore" v-if="shopList.length" type="1")
-      router-link(v-for="(item, index) in shopList" :to={name:'Shop', {query:geohash, id: item.id}} :key="index" tag="li")
+      router-link(v-for="(item, index) in shopList" :to="{name:'Shop', query: {geohash, id: item.id}}"  :key='index' tag='li')
         img.shop_img(:src="imgBaseUrl + item.image_path")
         .con
           .tit
@@ -25,10 +25,10 @@
               span.time {{item.order_lead_time}}
     ul.animation_opactiy(v-else)
       li.list_back_li(v-for="item in 10" :key="item")
-        img.list_back_svg(:src="../../images/shopback.svg")
+        //- img.list_back_svg(:src="../../images/shopback.svg")
     p.empty_data(v-if="touchend") 没有更多了
     aside(v-if="showBackStatus" @click="backTop")
-      img(:src="")
+      //- img(:src="")
     .other(ref="abc")
     transition(name="loading")
       loading(v-show="showLoading")
@@ -37,7 +37,7 @@
 
 <script>
 import {mapState} from 'vuex'
-import {imgBaseUrl} from '/config/env'
+import {imgBaseUrl} from '@/assets/js/env'
 // 指令
 import {loadMore} from './mixin'
 // 组件

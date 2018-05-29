@@ -1,9 +1,10 @@
 <template lang="pug">
   div
     transtion(name="router-fade" mode="out-in")
-      router-view(v-if="")
+      keepAlive
+        router-view(v-if="$route.meta.keepAlive")
     transition(name="router-fade" mode="out-in")
-      router-view(v-if="")
+      router-view(v-if="!$route.meta.keepAlive")
 </template>
 
 <script>

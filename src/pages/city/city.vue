@@ -1,6 +1,6 @@
 <template lang="pug">
   .page.city_page
-    head
+    headTop
       router-link(slot="changecity" :to="{name:'Home'}") 切换城市
     form
       input(v-model="address" type="search" name="city" placeholder="输入学校、商务楼、地址" required)

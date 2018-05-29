@@ -1,21 +1,21 @@
 <template lang="pug">
   .page.msite_page
-    head
+    headTop
       router-link(slot="search" :to="{name:'Search'}") 搜索美食
       router-link(slot="msite-title" :to="{name:'Home'}") {{msiteTitle}}
     nav
       .swiper-container(v-if="foodClass.length")
         .swiper-wrapper
           .swiper-slide(v-for="(item, index) in foodClass" :key="index")
-            router-link(v-for="val in item" :key="val.id" :to="{name: Food, query: {geohash, title: val.title, restaurant_category_id: getCategoryId(val.link)}}")
+            router-link(v-for="val in item" :key="val.id" :to="{name: 'Food', query: {geohash: geohash, title: val.title, restaurant_category_id: getCategoryId(val.link)}}" tag="div")
               figure
                 img(:src="imgBaseUrl + val.image_url")
                 figcaption {{val.title}}
         .swiper-pagination
-      img(v-else :src="")
+      //- img(v-else :src="")
     .shop
       .title
-        img(:src="")
+        //- img(:src="")
         span 附近商家
       shop-list(v-if="hasGetData" :geohash = "geohash")
     foot
@@ -25,8 +25,9 @@
 <script>
 import {mapMutations} from 'vuex'
 import '@/assets/css/swiper.min.css'
-import '@/assets/js/swiper.min.js'
-// import {imgBaseUrl} from '/config/env'
+// import '@/assets/js/swiper.min.js'
+import Swiper from 'swiper';
+// import {imgBaseUrl} from '@/assets/js/env'
 import shopList from '@/components/shopList'
 
 export default {
@@ -45,7 +46,7 @@ export default {
   },
   computed: {
   },
-  beforeMount () {
+  async beforeMount () {
     if(this.$route.query.geohash) {
       this.geohash = this.$route.query.geohash;
     }else {
@@ -67,7 +68,7 @@ export default {
     this.fetchData();
   },
   methods: {
-    ...mapMutation([
+    ...mapMutations([
       'SAVE_GEOHASH', 'RECORD_ADDRESS'
     ]),
     fetchData() {

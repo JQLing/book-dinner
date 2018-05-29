@@ -1,3 +1,4 @@
+// https://blog.csdn.net/sinat_17775997/article/details/75270529
 import Vue from 'vue'
 import Vuex from 'vuex'
 import actions from './action'

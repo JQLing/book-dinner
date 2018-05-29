@@ -10,7 +10,7 @@
 </template>
 <script>
 export default {
-  name: Head,
+  name: 'Head',
   data () {
     return{
 

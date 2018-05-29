@@ -1,5 +1,5 @@
 import {getStyle} from '@/helper/utils'
-import { imgBaseUrl} from '/config/env'
+import {imgBaseUrl} from '@/assets/js/env'
 
 export const loadMore = {
   directives: {

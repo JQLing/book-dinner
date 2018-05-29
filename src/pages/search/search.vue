@@ -1,6 +1,6 @@
 <template lang="pug">
   .page.search_page
-    Head
+    headTop
       router-link(:to="{name:'Msite'}") <
       router-link(slot="search") {{}}
     form.search

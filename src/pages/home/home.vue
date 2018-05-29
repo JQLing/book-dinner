@@ -1,6 +1,6 @@
 <template lang="pug">
   .page.home_page
-    head
+    headTop
       span(slot="login" @click="reload") ele
     nav
       .position

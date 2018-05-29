@@ -17,6 +17,7 @@
 
 <script>
     export default {
+        name: 'ratingStar',
     	data(){
             return{
                
@@ -30,7 +31,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '../../style/mixin';
+    @import '../assets/css/mixin';
 	.rating_container{
         position: relative;
         top: .2rem;

@@ -2,7 +2,7 @@ export default {
 	/**
 	 * 存储localStorage
 	 */
-	const: lsSet = (name, val) => {
+	lsSet(name, val)  {
 		if (!name) return;
 		if (typeof val !== 'string') {
 			val = JSON.stringify(val);
@@ -12,14 +12,14 @@ export default {
 	/**
 	 * 获取localStorage
 	 */
-	const: lsGet = name => {
+	lsGet(name) {
 		if (!name) return;
 		return window.localStorage.getItem(name);
 	},
 	/**
 	 * 删除localStorage
 	 */
-	const: lsRemove = name => {
+	lsRemove(name) {
 		if (!name) return;
 		window.localStorage.removeItem(name);
 	}
