@@ -41,7 +41,7 @@ export default [
         },
         //首页 城市列表页
         {
-          path: '/',
+          path: '/home',
           name: 'Home',
           component: Home
         },

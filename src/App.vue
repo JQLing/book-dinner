@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    transtion(name="router-fade" mode="out-in")
+    transition(name="router-fade" mode="out-in")
       keepAlive
         router-view(v-if="$route.meta.keepAlive")
     transition(name="router-fade" mode="out-in")
