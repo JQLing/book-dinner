@@ -1,20 +1,22 @@
 <template lang="pug">
   .page.msite_page
-    headTop
-      router-link(slot="search" :to="{name:'Search'}") 搜索美食
-      router-link(slot="msite-title" :to="{name:'Home'}") {{msiteTitle}}
+    headTop(signin-up="true")
+      router-link.search_icon(slot="search" :to="{name:'Search'}")
+        img.search_pic(:src="searchPic")
+      router-link.ellipsis.title(slot="msite-title" :to="{name:'Home'}") {{msiteTitle}}
     nav
-      .swiper-container(v-if="foodClass.length")
+      .swiper-container(v-if="foodClass")
         .swiper-wrapper
           .swiper-slide(v-for="(item, index) in foodClass" :key="index")
             router-link(v-for="val in item" :key="val.id" :to="{name: 'Food', query: {geohash: geohash, title: val.title, restaurant_category_id: getCategoryId(val.link)}}" tag="div")
-              figure
+              figure.fl
                 img(:src="imgBaseUrl + val.image_url")
                 figcaption {{val.title}}
         .swiper-pagination
       //- img(v-else :src="")
+      //- geohash=31.321,121.47597
     .shop
-      .title
+      .tit
         //- img(:src="")
         span 附近商家
       shop-list(v-if="hasGetData" :geohash = "geohash")
@@ -25,9 +27,9 @@
 <script>
 import {mapMutations} from 'vuex'
 import '@/assets/css/swiper.min.css'
-// import '@/assets/js/swiper.min.js'
 import Swiper from 'swiper';
 // import {imgBaseUrl} from '@/assets/js/env'
+import {cityGuess, msiteAddress, msiteFoodTypes} from '@/service/api'
 import shopList from '@/components/shopList'
 
 export default {
@@ -36,6 +38,7 @@ export default {
     return {
       geohash: '',                    // city页面传递过来的地址geohash
       msiteTitle: '请选择地址...',    // msite页面头部标题
+      searchPic: require('@/assets/img/icon_search.png'),
       foodClass: [],                // 食品分类列表  
       imgBaseUrl: 'https://fuss10.elemecdn.com',   //图片域名地址
       hasGetData: false                //是否已经获取地理位置数据，成功之后再获取商铺列表信息
@@ -61,7 +64,7 @@ export default {
       // 记录当前经度纬度
       // this.RECORD_ADDRESS(r.latitude, r.longitude);
       this.RECORD_ADDRESS(r);
-      this.hasGetData = ture;
+      this.hasGetData = true;
     });
   },
   mounted () {
@@ -75,6 +78,7 @@ export default {
       // 导航 食品分类 列表 and 初始化swiper
       msiteFoodTypes(this.geohash).then(r => {
         let arr = [...r];     // 返回一个新的数组
+        console.log('xxxxxxx'+r.length);
         for(let i=0,j=0; i< arr.length; i+= 8,j++){
           this.foodClass[j] = arr.splice(0, 8); // 返回新数组，包含被删除的项
         }

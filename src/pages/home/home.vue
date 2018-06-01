@@ -1,30 +1,32 @@
 <template lang="pug">
   .page.home_page
-    headTop
-      span(slot="login" @click="reload") ele
+    headTop(signin-up="home")
+      span.head_log(slot="logo" @click="reload") ele.me
     nav
       .position
         span 当前定位城市：
         span 定位不准时，请在城市列表中选择
-      //- router-link.location(:to="{name: '', params: { cityId: guessCityId }}")
+      router-link.location(:to="{name: 'City', params: { cityId: guessCityId }}" tag="div")
         span {{guessCity}}
-        i.icon.arrow_right
-    section.hot_city
+        img(:src="next")
+    .hot_city
       h4 热门城市
-      ul
-        //- router-link(v-for="item in hotCity" :to="{name: '', params: { cityId: item.id }}" tag="li" :key="item.id") {{item.name}}
+      ul.hot_city_list.clear(v-if="hotCity.length")
+        router-link.fl(v-for="item in hotCity" :to="{name: 'City', params: { cityId: item.id }}" tag="li" :key="item.id") {{item.name}}
     section.group_city
-      ul
+      ul.group_city_list
         li(v-for="(val, key, index) in sortGroupCity" :key="key")
           h4 {{key}}
             span(v-if="!index") （按字母排序）
-          ul
-            //- router-link(v-for="item in val" tag="li" :to="{name='', params: { cityId: item.id }}" :key="item.id") {{item.name}}
+          ul.city_list.clear(v-if="val.length")
+            router-link.fl(v-for="item in val"  :to="{name:'City', params: { cityId: item.id }}" tag="li" :key="item.id") {{item.name}}
+         
+          
 </template>
 <style lang="scss" src="./home.scss" scoped></style>
 
 <script>
-// import {cityGuess, hotcity, groupcity} from '@/service/api'
+import {cityGuess, hotcity, groupcity} from '@/service/api'
 export default {
   name: 'Home',
   data () {
@@ -32,6 +34,7 @@ export default {
       guessCity: '',       //当前城市
       guessCityId: '',    //当前城市id
       hotCity: [],       //热门城市列表
+      next: require('@/assets/img/icon_more.png'),
       groupCity: {}     //所有城市列表
     }
   },

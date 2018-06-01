@@ -1,4 +1,5 @@
-import {imgBaseUrl} from '@/assets/js/env'
+import {baseUrl} from '@/assets/js/env'
+
 export default async (url= '', data = {}, type = 'GET', method = 'fetch') => {
   type = type.toUpperCase();
   url = baseUrl + url;
@@ -9,7 +10,7 @@ export default async (url= '', data = {}, type = 'GET', method = 'fetch') => {
       dataStr += key + '=' +data[key] + '&';
     });
     if(dataStr != '') {
-      dataStr = dataStr.substring(0, dataStr.lastIndexOf('&'));
+      dataStr = dataStr.substr(0, dataStr.lastIndexOf('&'));
       url = url + '?' + dataStr;
     }  
   }
@@ -31,19 +32,18 @@ export default async (url= '', data = {}, type = 'GET', method = 'fetch') => {
     if(type == 'POST') {
       // Object.defineProperty() 方法会直接在一个对象上定义一个新属性，或者修改一个对象的现有属性， 并返回这个对象。
       Object.defineProperty(requestConfig, 'body', {
-        value: JSON.parse(data)
+        value: JSON.stringify(data)
       });
     }
     // fetch()方法返回的是一个promise对象
     try{
       const r = await fetch(url, requestConfig);
       const rJson = await r.json();
+      return rJson;
+      // return r;
     } catch (err) {
       throw new Error(err);
-    }
-    
-    
-    
+    }  
   } else {
     return new Promise((resolve, reject) => {
 			let ajax;
@@ -66,7 +66,7 @@ export default async (url= '', data = {}, type = 'GET', method = 'fetch') => {
 				if (ajax.readyState == 4) {
 					if (ajax.status == 200) {
 						let obj = ajax.response
-						if (typeof obj !== 'object') {
+						if (typeof obj != 'object') {
 							obj = JSON.parse(obj);
 						}
 						resolve(obj)

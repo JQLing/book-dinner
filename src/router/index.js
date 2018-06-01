@@ -60,7 +60,7 @@ export default [
         },
         //搜索页
         {
-          path: '/search/:geohash',
+          path: '/search',
           name: 'Search',
           component: Search
         },

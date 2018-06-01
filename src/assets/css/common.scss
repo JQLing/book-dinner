@@ -12,7 +12,7 @@ body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, l
   -webkit-tap-highlight-color:transparent;
   -webkit-font-smoothing: antialiased;
   &:hover{
-      outline: none;
+    outline: none;
   }
 }
 ::-webkit-scrollbar {
@@ -20,8 +20,8 @@ body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, l
   // -ms-overflow-style: none;
 }
 html,body{
-  // height: 100%;
-  // width: 100%;
+  height: 100%;
+  width: 100%;
   background-color: #F5F5F5;
   // scroll-behavior: smooth;
   // -webkit-overflow-scrolling: touch;

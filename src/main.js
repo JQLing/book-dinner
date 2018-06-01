@@ -3,13 +3,13 @@ import VueRouter from 'vue-router'
 // fastclick可以解决在手机上点击事件的300ms延迟
 // import FastClick from 'fastclick'
 
-// import App from './App'
 import routes from './router'
 import store from './store/'
-import api from '@/service/api'
+
 import {routerMode} from './assets/js/env'
 import './assets/js/rem'
 // 组件
+// import App from './App'
 import Head from '@/components/Head'
 import FootGuide from '@/components/FootGuide'
 // 方法

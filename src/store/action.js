@@ -1,7 +1,7 @@
-// import {
-// 	getUser,
-// 	getAddressList
-// } from '../service/api'
+import {
+	getUser,
+	getAddressList
+} from '../service/api'
 import {
 	GET_USERINFO,
 	SAVE_ADDRESS

@@ -1,28 +1,30 @@
 <template lang="pug">
   .page.city_page
-    headTop
-      router-link(slot="changecity" :to="{name:'Home'}") 切换城市
-    form
-      input(v-model="address" type="search" name="city" placeholder="输入学校、商务楼、地址" required)
-      input(@click="position" type="submit" name="submit" value="提交")
-    ul(v-if="addressList.length")
+    headTop(:head-title="cityName" go-back="true")
+      router-link.changecity(slot="changecity" :to="{name:'Home'}") 切换城市
+    form(@submit.prevent="position")
+      input.address(v-model="address" type="search" name="city" placeholder="输入学校、商务楼、地址" required)
+      input.position( type="submit" name="submit" value="提交")
+    //- 搜索结果
+    ul.result(v-if="addressList")
       li(v-for="(item, index) in addressList" @click="goDetail(index)" :key="index")
-        p {{item.name}}
-        p {{item.address}}
-    p(v-else) 无搜索结果！
-    p(v-if="addressHistory.length") 搜索历史
-    ul(v-if="addressHistory.length")
+        p.tit {{item.name}}
+        p.num {{item.address}}
+    p.empty(v-else) 无搜索结果！
+    //- 搜索历史
+    p.history_tit(v-if="addressHistory") 搜索历史
+    ul.history_list(v-if="addressHistory")
       li(v-for="(item, index) in addressHistory" :key="index")
-        p {{item.name}}
-        p {{item.address}}
-      li(@click="clearAll") 清空所有
+        p.tit {{item.name}}
+        p.num {{item.address}}
+      li.clearAll(@click="clearAll") 清空所有
     
 
 </template>
 <style lang="scss" src="./city.scss" scoped></style>
 
 <script>
-// import {cityGuess, hotcity, groupcity} from '@/service/api'
+import {currentcity, searchplace} from '@/service/api'
 export default {
   name: 'City',
   data () {
@@ -30,7 +32,7 @@ export default {
       address: '',             // 输入地址
       cityId: '',
       cityName: '',
-      addressList: '',          // 搜索结果：地址列表
+      addressList: [],          // 搜索结果：地址列表
       addressHistory: []      // 历史搜索地址
       // isShow: false,            // 是否显示‘搜索历史’
       // hasResult: ''        //是否有 搜索结果
@@ -60,7 +62,7 @@ export default {
           // this.hasResult = r.length ? true : false;
         });
       }
-      
+      // return false;
     },
     /**
      * 点击搜索结果进入下一页面时进行判断是否已经有一样的历史记录

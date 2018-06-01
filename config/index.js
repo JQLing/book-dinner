@@ -14,28 +14,76 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    // proxyTable: {
-
-    // },
-    context: [ //代理路径
-      '/shopping',
-      '/ugc',
-      '/v1',
-      '/v2',
-      '/v3',
-      '/v4',
-      '/bos',
-      '/member',
-      '/promotion',
-      '/eus',
-      '/payapi',
-      '/img',
-    ],
-    proxypath: 'http://cangdu.org:8001',
+    // https://www.jianshu.com/p/6120a4e3c875
+    proxyTable: {
+      '/v1': {
+        target: 'http://cangdu.org:8001',
+        changeOrigin: true
+      },
+      '/v2': {
+        target: 'http://cangdu.org:8001',
+        changeOrigin: true
+      },
+      '//v3': {
+        target: 'http://cangdu.org:8001',
+        changeOrigin: true
+      },
+      '/v4': {
+        target: 'http://cangdu.org:8001',
+        changeOrigin: true
+      },
+      '/shopping': {
+        target: 'http://cangdu.org:8001',
+        changeOrigin: true
+      },
+      '/ugc': {
+        target: 'http://cangdu.org:8001',
+        changeOrigin: true
+      },
+      '/bos': {
+        target: 'http://cangdu.org:8001',
+        changeOrigin: true
+      },
+      '/member': {
+        target: 'http://cangdu.org:8001',
+        changeOrigin: true
+      },
+      '/promotion': {
+        target: 'http://cangdu.org:8001',
+        changeOrigin: true
+      },
+      '/eus': {
+        target: 'http://cangdu.org:8001',
+        changeOrigin: true
+      },
+      '/payapi': {
+        target: 'http://cangdu.org:8001',
+        changeOrigin: true
+      },
+      '/img': {
+        target: 'http://cangdu.org:8001',
+        changeOrigin: true
+      }
+    },
+    // context: [ //代理路径
+    //   '/shopping',
+    //   '/v1',
+    //   '/ugc',
+    //   '/v2',
+    //   '/v3',
+    //   '/v4',
+    //   '/bos',
+    //   '/member',
+    //   '/promotion',
+    //   '/eus',
+    //   '/payapi',
+    //   '/img',
+    // ],
+    // proxypath: 'http://cangdu.org:8001',
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
-    port: 8081, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    port: 8003, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,

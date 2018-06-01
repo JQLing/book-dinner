@@ -1,0 +1,41 @@
+@import '../../assets/css/mixin';
+.search_icon{
+  @include ct;
+  left: .8rem;
+  @include wh(0.9, .9rem);
+}
+.search_pic{
+  @include wh(0.9, .9rem);
+}
+.title{
+  @include center;
+  width: 40%;
+  @include sc(0.65rem,#fff);
+}
+nav{
+  margin: 1.95rem 0 0.4rem;
+  background: #fff;
+  padding: .4rem 0;
+}
+figure{
+  @include wh(25%, 3.6rem);
+  text-align: center;
+  img{
+    @include wh(1.8rem, 1.8rem);
+    margin-bottom: 0.2rem
+  }
+  figcaption{
+    @include sc(0.55rem,#666);
+  }
+}
+.shop{
+  background: #fff;
+}
+.tit{
+  // @include bag();
+  span{
+    margin-left: 1rem;
+    @include font(0.55rem, 1.6rem);
+    color:#999;
+  }
+}

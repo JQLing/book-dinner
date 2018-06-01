@@ -1,0 +1,66 @@
+@import '../../assets/css/mixin';
+.changecity{
+  @include ct;
+  right: 0.4rem;
+  @include sc(0.55rem, #fff);
+}
+form{
+  width: 100%;
+  padding: 0.4rem 0;
+  border-top: 2px solid $bc;
+  border-bottom: 2px solid $bc;
+  margin: 2.4rem 0 0;
+  background: #fff;
+}
+.address{
+  display: block;
+  width: 90%;
+  padding: 0.3rem;
+  border: 1px solid $bc;
+  border-radius: 0.1rem;
+  margin: 0 auto;
+  @include sc(0.65rem, #333);
+}
+.position{
+  display: block;
+  width: 90%;
+  height: 1.5rem;
+  border-radius: 0.1rem;
+  margin: 0.4rem auto 0;
+  @include sc(0.65rem, #fff);
+  background: $blue;
+  text-align: center;
+}
+.empty{
+  padding: 0 0.4rem;
+  background: #fff;
+  @include font(0.65rem, 1.75rem);
+  color: #333;
+}
+.history_tit{
+  padding: 0 0.4rem;
+  @include font(0.65rem, 1.75rem);
+  color: #333;
+}
+.result, .history_list{
+  border-top: 1px solid $bc;
+  background: #fff;
+}
+li{
+  padding: 0.5rem 0.4rem;
+  border-bottom: 1px solid $bc;
+}
+.tit{
+  @include sc(0.65rem, #333);
+  margin-bottom: 0.2rem;
+}
+.num{
+  @include sc(0.45rem, #999);
+}
+.clearAll{
+  border: none;
+  background: #fff;
+  line-height: 2rem;
+  @include sc(0.7rem, #666);
+  text-align: center;
+}
