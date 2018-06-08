@@ -33,7 +33,7 @@ export default {
   },
   //记录当前经度纬度
   [RECORD_ADDRESS](state, {latitude, longitude}) {
-    console.log('latitude'+latitude +'---longitude' +longitude);
+    // console.log('latitude'+latitude +'---longitude' +longitude);
     state.latitude = latitude;
     state.longitude = longitude;
   }

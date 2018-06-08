@@ -17,6 +17,9 @@ nav{
   background: #fff;
   padding: .4rem 0;
 }
+nav .swiper-pagination{
+  bottom: -4px;
+}
 figure{
   @include wh(25%, 3.6rem);
   text-align: center;

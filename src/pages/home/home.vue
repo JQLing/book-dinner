@@ -12,21 +12,23 @@
     .hot_city
       h4 热门城市
       ul.hot_city_list.clear(v-if="hotCity.length")
-        router-link.fl(v-for="item in hotCity" :to="{name: 'City', params: { cityId: item.id }}" tag="li" :key="item.id") {{item.name}}
+        router-link.ellipsis.fl(v-for="item in hotCity" :to="{name: 'City', params: { cityId: item.id }}" tag="li" :key="item.id") {{item.name}}
     section.group_city
       ul.group_city_list
         li(v-for="(val, key, index) in sortGroupCity" :key="key")
           h4 {{key}}
             span(v-if="!index") （按字母排序）
           ul.city_list.clear(v-if="val.length")
-            router-link.fl(v-for="item in val"  :to="{name:'City', params: { cityId: item.id }}" tag="li" :key="item.id") {{item.name}}
+            router-link.ellipsis.fl(v-for="item in val"  :to="{name:'City', params: { cityId: item.id }}" tag="li" :key="item.id") {{item.name}}
          
           
 </template>
 <style lang="scss" src="./home.scss" scoped></style>
 
 <script>
+// 接口
 import {cityGuess, hotcity, groupcity} from '@/service/api'
+
 export default {
   name: 'Home',
   data () {

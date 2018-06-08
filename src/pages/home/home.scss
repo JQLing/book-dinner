@@ -67,9 +67,9 @@ nav{
   cursor: pointer;
 }
 .group_city{
-  
   h4{
     padding: 0 0.4rem;
+    border-bottom: 1px solid $bc;
     @include font(0.55rem, 1.45rem, "Helvetica Neue");
     color: #666;
     font-weight: 400;
@@ -80,14 +80,14 @@ nav{
 }
 .group_city_list >li{
   border-top: 1px solid $bc;
-  border-bottom: 1px solid $bc;
+  // border-bottom: 1px solid $bc;
   margin-top: 0.4rem;
   background: #fff;
 }
 .city_list li{
   float: left;
   @include wh(25%, 1.75rem);
-  border-top: 0.025rem solid $bc;
+  border-bottom: 0.025rem solid $bc;
   border-right: 0.025rem solid $bc;
   @include font(0.6rem, 1.75rem);
   text-align: center;

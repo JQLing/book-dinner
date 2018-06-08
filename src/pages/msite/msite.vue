@@ -27,6 +27,7 @@
 <script>
 import {mapMutations} from 'vuex'
 import '@/assets/css/swiper.min.css'
+// import '@/assets/js/swiper.min.js'
 import Swiper from 'swiper';
 // import {imgBaseUrl} from '@/assets/js/env'
 import {cityGuess, msiteAddress, msiteFoodTypes} from '@/service/api'
@@ -78,15 +79,20 @@ export default {
       // 导航 食品分类 列表 and 初始化swiper
       msiteFoodTypes(this.geohash).then(r => {
         let arr = [...r];     // 返回一个新的数组
-        console.log('xxxxxxx'+r.length);
-        for(let i=0,j=0; i< arr.length; i+= 8,j++){
-          this.foodClass[j] = arr.splice(0, 8); // 返回新数组，包含被删除的项
+        for(let i=0,j=0; i<= arr.length; i+= 8,j++){
+          this.foodClass[j] = arr.splice(0, 8);     // 返回新数组，包含被删除的项
         }
-
       }).then(() => {
-        new Swiper ('.swiper-container', {
+        let mySwiper = new Swiper ('.swiper-container', {
           // loop: true,
-          pagination: '.swiper-pagination'
+          pagination: '.swiper-pagination',
+          paginationClickable: true,
+          hashnav:true,
+          observer:true,           //修改swiper自己或子元素时，自动初始化swiper
+          observeParents:true,   //修改swiper的父元素时，自动初始化swiper
+          onSlideChangeEnd: function(swiper){
+            swiper.update();
+          }
         });
       });
     },

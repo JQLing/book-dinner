@@ -1,14 +1,15 @@
 <template lang="pug">
-
+.page
+  .loading
+    img(:src="load")
 </template>
-<style lang="scss" scoped></style>
 
 <script>
-
 export default {
   name: 'loading',
   data () {
     return {
+      load: require('@/assets/img/loading.gif')
     }
   },
   computed: {
@@ -28,5 +29,15 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+@import '../assets/css/mixin';
+.loading{
+  @include center;
+}
+img{
+  width: 1.125rem;
+  height: 1.125rem;
+}
+</style>
 
 

@@ -42,6 +42,10 @@ form{
   @include font(0.65rem, 1.75rem);
   color: #333;
 }
+.result{
+  position: relative;
+  z-index: 2;
+}
 .result, .history_list{
   border-top: 1px solid $bc;
   background: #fff;

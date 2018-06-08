@@ -1,0 +1,166 @@
+@import '../../assets/css/mixin';
+.menu{
+  position: fixed;
+  top: 1.95rem;
+  left: 0;
+  display: flex;
+  width: 100%;
+}
+.menu >li{
+  @include wh(33.33%, 1.6rem);
+  background: #fff;
+  border-bottom: 0.025rem solid $bc;
+}
+.menu_list{
+  border-bottom: 0.025rem solid $bc;
+  border-left: 0.025rem solid $bc;
+  font-size: 0.55rem;
+  text-align: center;
+  line-height: 1.6rem;
+}
+.menu_list img{
+  margin-left: 0.2rem;
+  @include wh(0.5rem, 0.3rem);
+}
+.category, .sort, .delivery{
+  position: absolute;
+  top: 1.6rem;
+  left: 0;
+  width: 100%;
+  @include sc(0.5rem, #666);
+}
+.category{
+  display: flex;
+  justify-content: space-between;
+}
+.category_list, .sub_category_list{
+  flex: 1;
+  height: 16rem;
+  overflow-y: auto;
+}
+.category_list{
+  background: #f1f1f1;
+}
+.category_item{
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0.5rem;
+}
+.active{
+  background: #fff;
+}
+.category_item div{
+  line-height: 1.7rem;
+}
+.category_box{
+  flex: 2;
+}
+.more_box{
+  flex: 1;
+}
+.icon_category{
+  @include wh(0.8rem, 0.8rem);
+  vertical-align: middle;
+  margin-right: .2rem;
+}
+.more_box{
+  text-align: right;
+}
+.count{
+  padding: 0.1rem;
+  border: 0.025rem solid #ccc;
+  border-radius: 0.8rem;
+  margin-right: 0.25rem;
+  background: #ccc;
+  @include sc(0.4rem, #fff);
+  vertical-align: middle;
+}
+.more{
+ @include wh(0.35rem, 0.6rem);
+}
+.category_list_sub{
+  flex: 1;
+  padding-left: 0.5rem;
+  background: #fff;
+}
+.selectActive span{
+  color: $blue;
+}
+.category_list_sub li{
+  display: flex;
+  justify-content: space-between;
+  height: 1.8rem;
+  line-height: 1.8rem;
+  padding-right: 0.5rem;
+  border-bottom: 0.025rem solid $bc;
+}
+.sort{
+  background: #fff;
+}
+.sort li{
+  display: flex;
+  align-items: center;
+  height: 2.5rem;
+  background: url('../../assets/img/icon_avatar.png') no-repeat 0.8rem center;
+  background-size: 0.75rem 0.75rem;
+}
+.sort p{
+  width: 100%;
+  line-height: 2.5rem;
+  border-bottom: 0.025rem solid $bc;
+  margin-left: 1.8rem;
+  text-indent: 0.25rem;
+  @include sc(0.55rem, #666);
+}
+.sort li:last-child p{
+  border-bottom: none;
+}
+h4{
+  height: 1.5rem;
+  padding-left: .5rem;
+  line-height: 1.5rem;
+  @include sc(0.4rem, #333);
+  background: #fff;
+}
+.on{
+  border: 0.025rem solid $blue;
+  color: $blue;
+}
+.delivery_ways, .supports{
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 0.5rem;
+  background: #fff;
+}
+.delivery li {
+  width: 4.7rem;
+  height: 1.4rem;
+  padding: 0 0.25rem;
+  border: 0.025rem solid $bc;
+  border-radius: 0.125rem;
+  margin-right: 0.3rem;
+  margin-bottom: 0.25rem;
+  line-height: 1.4rem;
+  text-align: center;
+}
+.btns{
+  display: flex;
+  padding: 0.3rem, 0.2rem;
+  background: #f1f1f1;
+}
+.clear, .sure{
+  width: 49%;
+  height: 1.8rem;
+  line-height: 1.8rem;
+  border-radius: 0.2rem;
+  font-size: 0.8rem;
+  text-align: center;
+}
+.clear{
+  color: 333;
+  background: #fff;
+}
+.sure{
+  color: #fff;
+  background: #56d176;
+}

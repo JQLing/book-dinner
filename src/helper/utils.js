@@ -14,8 +14,8 @@ export const showBack = callback => {
 
   const moveEnd = () => {
     requestFram = requestAnimationFrame(() => {
-      if(document.body.scrollTop != oldScrollTop) { // 滑动了：上滑或下滑
-        oldScrollTop = document.body.scrollTop;
+      if(document.documentElement.scrollTop != oldScrollTop) { // 滑动了：上滑或下滑
+        oldScrollTop = document.documentElement.scrollTop;
         moveEnd();
       }else{
         cancelAnimationFrame(requestFram);
@@ -25,7 +25,7 @@ export const showBack = callback => {
   }
   //判断是否达到目标点
   const showBackFn = () => {
-    if(document.body.scrollTop > 500) {
+    if(document.documentElement.scrollTop > 500) {
       callback(true);
     }else {
       callback(false);
@@ -42,7 +42,7 @@ export const showBack = callback => {
     showBackFn();
   }, {passive: true})
   document.addEventListener('touchend', () => {
-    oldScrollTop = document.body.scrollTop;
+    oldScrollTop = document.documentElement.scrollTop;
     moveEnd();
   }, {passive: true})
 }

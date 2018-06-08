@@ -1,24 +1,9 @@
 <template lang="pug">
-  //- .page.shop_page
-  //-   head
-  //-     router-link(slot="search" :to="{name:'Search'}") 搜索美食
-  //-     router-link(slot="msite-title" :to="{name:'Home'}") {{msiteTitle}}
-  //-   nav
-  //-     .swiper-container(v-if="foodClass.length")
-  //-       .swiper-wrapper
-  //-         .swiper-slide(v-for="(item, index) in foodClass" :key="index")
-  //-           router-link(v-for="val in item" :key="val.id" :to="{name: 'Food', query: {geohash, title: val.title, restaurant_category_id: getCategoryId(val.link)}}")
-  //-             figure
-  //-               img(:src="imgBaseUrl + val.image_url")
-  //-               figcaption {{val.title}}
-  //-       .swiper-pagination
-  //-     img(v-else :src="")
-  //-   .shop
-  //-     .title
-  //-       img(:src="")
-  //-       span 附近商家
-  //-     shop-list(v-if="hasGetData" :geohash = "geohash")
-  //-   foot
+  .page.shop_page
+    head
+      router-link(slot="search" :to="{name:'Search'}") 搜索美食
+      router-link(slot="msite-title" :to="{name:'Home'}") {{msiteTitle}}
+
 </template>
 <style lang="scss" src="./shop.scss" scoped></style>
 

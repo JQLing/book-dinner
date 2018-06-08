@@ -9,7 +9,7 @@ export const loadMore = {
       // bind：只调用一次，指令第一次绑定到元素时调用。可以进行一次性的初始化设置
       // el：指令所绑定的元素，可以用来直接操作 DOM 。binding：一个对象，包含以下属性:name, value, ...
       bind: (el, binding) => {
-        let windowHeight = window.screen.height;       // 屏幕分辨率的高
+        let windowHeight = window.screen.height;       // 屏幕分辨率的高   eg；640
         let height;      // 加载出数据的总高度
         let setTop;
         let paddingBottom;
@@ -27,11 +27,19 @@ export const loadMore = {
           scrollEl = el;
           heightEl = el.children[0];
         } else {
-          scrollEl = document.body;     // msite页面：scrollType=el.attributes.type.value=1
+          scrollEl = document.documentElement;     // msite页面：scrollType=el.attributes.type.value=1
           heightEl = el;
         }
 
         const loadMore = () => {
+        // console.log('windowHeight='+windowHeight);
+        // console.log('height='+height);
+        // console.log('setTop = '+setTop);
+        let a = scrollEl.scrollTop + windowHeight;
+        let b = height + setTop + paddingBottom + marginBottom - scrollReduce;
+        // console.log('scrollEl.scrollTop + windowHeight = '+a);
+        // console.log('height + setTop + paddingBottom + marginBottom - scrollReduce = '+b);
+
           // scrollTop卷起的高度，直到能把最后一条数据显示出来
           if(scrollEl.scrollTop + windowHeight >=  height + setTop + paddingBottom + marginBottom - scrollReduce) {
             // binding.value：指令的绑定值。在这里值是一个函数,调用函数
@@ -40,7 +48,7 @@ export const loadMore = {
         }
         const moveEnd = () => {
           requestFram = requestAnimationFrame(() => {
-            if(scrollEl.scrollTop != oldScrollTop.scrollTop) {
+            if(scrollEl.scrollTop != oldScrollTop) {
               oldScrollTop = scrollEl.scrollTop;
               moveEnd();
             } else {
@@ -52,8 +60,8 @@ export const loadMore = {
         }
 
         el.addEventListener('touchstart', () => {
-          setTop = el.offsetTop;
-          height = el.clientHeight;
+          setTop = el.offsetTop;                              // eg: 117
+          height = heightEl.clientHeight;                    // eg: 1979
           if(scrollType == 2) {
             height = height;
           }
@@ -71,4 +79,20 @@ export const loadMore = {
     }
   }
 };
-export const getImgPath = {};
+export const getImgPath = {
+  methods: {
+    getImgPath(path){
+      let suffix;
+      if (!path) {
+				return '//elm.cangdu.org/img/default.jpg'
+			}
+			if (path.indexOf('jpeg') !== -1) {
+				suffix = '.jpeg'
+			} else {
+				suffix = '.png'
+			}
+			let url = '/' + path.substr(0, 1) + '/' + path.substr(1, 2) + '/' + path.substr(3) + suffix;
+			return 'https://fuss10.elemecdn.com' + url
+    }
+  }
+};
