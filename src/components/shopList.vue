@@ -1,7 +1,7 @@
 <template lang="pug">
   .shop_list
     ul(v-load-more="loaderMore" v-if="shopList.length" type="1")
-      router-link.clear.shop_item(v-for="(item, index) in shopList" :to="{name:'Shop', query: {geohash, id: item.id}}"  :key='index' tag='li')
+      .shop_item.clear(v-for="(item, index) in shopList" @click="goShop(item.id)" :key='index')
         img.shop_img(:src="imgBaseUrl + item.image_path")
         .con
           .tit
@@ -16,7 +16,6 @@
             .ensure
               span.delivery_mode(v-if="item.delivery_mode") {{item.delivery_mode.text}}
               span.arrive(v-if="zhunshi(item.supports)") 准时达
-              //- span.arrive 准时达
           section.delivery
             .fee
               span.order_amount ￥{{item.float_minimum_order_amount}}起送 / 
@@ -82,11 +81,17 @@ export default {
   },
   watch: {
     //监听父级传来的restaurantCategoryIds，当值发生变化的时候重新获取餐馆数据，作用于排序和筛选
-    restaurantCategoryIds: this.listenPropChange,
+    restaurantCategoryIds: function (value) {
+      this.listenPropChange();
+    },
     //监听父级传来的排序方式
-    sortByType: this.listenPropChange,
+    sortByType: function (value) {
+      this.listenPropChange();
+    },
     //监听父级的确认按钮是否被点击，并且返回一个自定义事件通知父级，已经接收到数据，此时父级才可以清除已选状态
-    confirmSelect: this.listenPropChange
+    confirmSelect: function (value) {
+      this.listenPropChange();
+    }
   },
   mounted () {
     this.fetchData();
@@ -149,14 +154,24 @@ export default {
     backTop() {
       animate(document.documentElement, {scrollTop: '0'}, 400, 'ease-out');
     },
+    goShop(id) {
+      this.$router.push({
+        name: 'Shop',
+        query: {
+          id: id,
+          geohash: this.geohash
+        }
+      });
+    },
     //监听父级传来的数据发生变化时，触发此函数重新根据属性值获取数据
     async listenPropChange(){
       this.showLoading = true;
       this.offset = 0;
-      let r = await shopList(this.latitude, this.longitude, this.offset, '', this.restaurantCategoryIds, this.sortByType, this.deliveryMode, this.supportIds);
+      let r = await shopList(this.latitude, this.longitude, this.offset, '', this.sortByType, this.restaurantCategoryIds, this.deliveryMode, this.supportIds);
 			this.showLoading = false;
 			//考虑到本地模拟数据是引用类型，所以返回一个新的数组
 			this.shopList = [...r];
+      console.log('listenPropChange-ing');
     }
   }
 }
@@ -165,6 +180,7 @@ export default {
 @import '../assets/css/mixin';
 .shop_list{
   padding: .4rem;
+  padding-bottom: 0;
   margin-bottom: 2rem;
   background: #fff;
 }
@@ -277,4 +293,3 @@ export default {
   }
 }
 </style>
-

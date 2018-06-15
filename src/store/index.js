@@ -8,14 +8,16 @@ import getters from './getters'
 Vue.use(Vuex);
 
 const state = {
-  latitude: '', // 当前位置纬度
-  longitude: '', // 当前位置经度
+  latitude: '',         // 当前位置纬度
+  longitude: '',         // 当前位置经度
   geohash: '31.22299,121.36025', //地址geohash值
-  login: true, //是否登录
-	imgPath:null, //头像地址
-  userInfo: null, //用户信息
-  addAddress:'',		//新增地址
-  removeAddress:[],//移除地址
+  login: true,            //是否登录
+	imgPath:null,           //头像地址
+  userInfo: null,        //用户信息
+  addAddress:'',		     //新增地址
+  removeAddress:[],      //移除地址
+  cartList: {},          // 加入购物车的商品列表
+  shopid: null          //商铺id
 };
 
 export default new Vuex.Store({

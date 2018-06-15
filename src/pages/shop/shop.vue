@@ -1,82 +1,204 @@
 <template lang="pug">
   .page.shop_page
-    head
-      router-link(slot="search" :to="{name:'Search'}") 搜索美食
-      router-link(slot="msite-title" :to="{name:'Home'}") {{msiteTitle}}
+    // 头部
+    header
+      router-link.goback(:to="{name: 'Msite'}")
+        img.back(:src="back")
+      router-link.shopInfo(:to="{name: 'Msite'}" v-if="shopDetailData")
+        img.shop_pic(:src="imgBaseUrl + shopDetailData.image_path")
+        .info
+          h3 {{shopDetailData.name}}
+          p 商家配送 / {{shopDetailData.order_lead_time}}分钟送达 / 配送费¥{{shopDetailData.float_delivery_fee}}
+          p.ellipsis 公告：{{shopDetailData.promotion_info}}
+      router-link.next(:to="{name: 'Msite'}")
+        img.gonext(:src="go")
+    ul.chooseType(ref="choodeType")
+      li( @click="changeShowType='food'") 
+        span.on(:class="") 商品
+      li( @click="changeShowType='rating'") 
+        span(:class="") 评价
+    main
+      // 商品
+      section.food_container(v-show="changeShowType =='food'")
+        .menu_container
+          section.menu_left(ref="wrapperMenu")
+            ul.classifiy
+              li(v-for="(item, index) in menuList" @click="chooseMenu(index)" :class="{activity_menu: !index}" :key="index")
+                img.menu_icon(v-if="item.icon_url" :src="getImgPath(item.icon_url)")
+                span.menu_tit.ellipsis {{item.name}}
+                span.category_num(v-if="categoryNum[index] && item.type==1") {{categoryNum[index]}}
+          section.menu_right(ref="menuFoodList")
+            ul
+              li(v-for="(item,index) in menuList" :key="index")
+                h4.menu_detail_tit
+                  p.menu_detail_left
+                    span.menu_item_title {{item.name}}
+                    span.menu_item_description {{item.description}}
+                  span.menu_detail_right(@click="showTitleDetail(index)")
+                  p.description_tip(v-if="index == TitleDetailIndex") {{item.name}} {{item.description}}
+                .menu_detail_list(v-for="(foods, foodindex) in item.foods" :key="foodindex")
+                  router-link.menu_detail_item(:to="{path: 'shop/foodDetail', query:{image_path:foods.image_path, description: foods.description, month_sales: foods.month_sales, name: foods.name, rating: foods.rating, rating_count: foods.rating_count, satisfy_rate: foods.satisfy_rate, foods, shopId}}" tag="div")
+                    img.food_icon(:src="imgBaseUrl + foods.image_path")
+                    .menu_food_description
+                      h3
+                        strong.food_tit {{foods.name}}
+                        ul.attributes_ul(v-if="foods.attributes.length")
+                          li(v-for="(attribute, foodindex) in foods.attributes" :class="{attribute_new: attribute.icon_name == '新'}" :style="{color: '#'+attribute.icon_color, borderColor: '#'+attribute.icon_color}" :key="foodindex" )
+                      p.food_description_content {{foods.description}}
+                      p.food_description_sale_rating
+                        span.month_sales 月售{{foods.month_sales}}份
+                        span 好评率{{foods.satisfy_rate}}%
+                      p.food_activity(v-if="foods.activity")
+                        span(:style="{color: '#'+foods.activity.image_text_color, borderColor: '#'+foods.activity.icon_color}") {{foods.activity.image_text}}
+                      .menu_detail_footer
+                        .food_price
+                          span.price_icon ¥
+                          span.price_num {{foods.specfoods[0].price}}
+                          span(v-if="foods.specifications.length") 起
+                        buy-cart(:shopId='shopId' :foods='foods' @moveInCart="listenInCart" @showChooseList="showChooseList" @showReduceTip="showReduceTip" @showMoveDot="showMoveDotFun")
+        .buy_cart_container
+          .cart_icon_num(@click="toggleCartList")
+            p.cart_icon_container(:class="{cart_icon_activity: totalPrice > 0, move_in_cart: receiveInCart}" ref="cartContainer")
+              span(v-if="totalNum") {{totalNum}}
+              img
+            p.cart_num
+              span ¥ {{totalPrice}}
+              span 配送费 ¥{{deliveryFee}}
+          p.gotopay(:class="{gotopay_acitvity: minimumOrderAmount <= 0}")
+            span.gotopay_button_style(v-if="minimumOrderAmount > 0") 还差¥{{minimumOrderAmount}}起送
+            router-link(v-else :to="{path:'/confirmOrder', query:{geohash, shopId}}") 去结算
+        .cart_food_list( v-show="showCartList && cartFoodList.length")
+          div
+            h4 购物车
+            .clearCart(@click="clearCart")
+              img
+              span.empty 清空
+          .cart_food_details
+            ul
+              li(v-for="(item, index) in cartFoodList" :key="index")
+                .cart_list_num
+                  p.ellipsis {{item.name}}
+                  p.ellipsis {{item.specs}}
+                .cart_list_price
+                  span ￥
+                  span {{item.price}}
+                .cart_list_control
+                  span(@click="removeOutCart(item.category_id, item.item_id, item.food_id, item.name, item.price, item.specs)")
+                    img
+                  span.cart_num {{item.num}}
+                  img.cart_add(@click="addToCart(item.category_id, item.item_id, item.food_id, item.name, item.price, item.specs)")
+        .screen_cover(v-show="showCartList && cartFoodList.length" @click="toggleCartList")
+      // 评价
+      section.rating_container(v-show="changeShowType =='rating'")
+        div(v-load-more="loaderMoreRating" type="2")
+
+    transition(name="loading")
+      loading(v-show="showLoading")
 
 </template>
 <style lang="scss" src="./shop.scss" scoped></style>
 
 <script>
-// import {mapMutations} from 'vuex'
-// import '@/assets/css/swiper.min.css'
-// import '@/assets/js/swiper.min.js'
-// // import {imgBaseUrl} from '/config/env'
-// import shopList from '@/components/shopList'
+import {mapState, mapMutations} from 'vuex'
+import {imgBaseUrl} from '@/assets/js/env'
+import {loadMore, getImgPath} from '@/components/mixin'
+// 组件
+import ratingStar from '@/components/ratingStar'
+import loading from '@/components/loading'
+import buyCart from '@/components/buyCart'
+import {msiteAddress, shopDetails, foodMenu, getRatingList, ratingScores, ratingTags} from '@/service/api'
+// import BScroll from 'better-scroll'
+
 
 export default {
   name: 'Shop',
   data () {
     return {
-      // geohash: '',                    // city页面传递过来的地址geohash
-      // msiteTitle: '请选择地址...',    // msite页面头部标题
-      // foodClass: [],                // 食品分类列表  
-      // imgBaseUrl: 'https://fuss10.elemecdn.com',   //图片域名地址
-      // hasGetData: false  //是否已经获取地理位置数据，成功之后再获取商铺列表信息
+      geohash: '', 
+      back: require('@/assets/img/icon_back.png'),
+      go: require('@/assets/img/icon_more.png'),
+      imgBaseUrl,
+      showLoading: true,
+      shopDetailData: null,               //商铺详情
+      menuList: [],                       //食品列表     
+      ratingList: null,                   //评价列表 
+      ratingScoresData: null,             //评价总体分数
+      ratingTagsList: null,                //评价分类列表
+      shopId: '',
+      ratingOffset: 0,                       //评价获取数据offset值
+      changeShowType: 'food',                //切换显示商品或者评价
+      categoryNum: [],                        //左侧菜单分类-右上角已加入购物车的数量
+      TitleDetailIndex: null,                 //右侧菜单详情-展示列表头部
+      totalNum: 0,
+      totalPrice: 0,                          //总共价格
+      cartFoodList: [],                       //购物车-商品列表
+      showCartList: false,                    //是否显示购物车列表
+      
+      windowHeight: null                            //屏幕的高度
     }
   },
+  computed: {
+    ...mapState([
+      'latitude', 'longitude','cartList'
+    ])
+  },
+  mixins: [loadMore, getImgPath],
   components: {
-    // shopList
+    loading,
+    buyCart
   },
-  async beforeMount () {
-    // if(this.$route.query.geohash) {
-    //   this.geohash = this.$route.query.geohash;
-    // }else {
-    //   const r = await cityGuess();
-    //   this.geohash = r.latitude + ',' + r.longitude;
-    // }
-    // //保存geohash到vuex
-    // this.SAVE_GEOHASH(this.geohash);
-    // //获取位置
-    // msiteAddress(this.geohash).then(r => {
-    //   this.msiteTitle = r.name;
-    //   // 记录当前经度纬度
-    //   // this.RECORD_ADDRESS(r.latitude, r.longitude);
-    //   this.RECORD_ADDRESS(r);
-    //   this.hasGetData = ture;
-    // });
-  },
-  mounted () {
+  created() {
+    this.geohash = this.$route.query.geohash;
+    this.shopId = this.$route.query.id;
     this.fetchData();
   },
+  mounted () {
+    // this.fetchData();
+    this.windowHeight = window.innerHeight;
+  },
   methods: {
-    // ...mapMutation([
-    //   'SAVE_GEOHASH', 'RECORD_ADDRESS'
-    // ]),
-    fetchData() {
-      // 导航 食品分类 列表 and 初始化swiper
-      // msiteFoodTypes(this.geohash).then(r => {
-      //   let arr = [...r];     // 返回一个新的数组
-      //   for(let i=0,j=0; i< arr.length; i+= 8,j++){
-      //     this.foodClass[j] = arr.splice(0, 8); // 返回新数组，包含被删除的项
-      //   }
-
-      // }).then(() => {
-      //   new Swiper ('.swiper-container', {
-      //     // loop: true,
-      //     pagination: '.swiper-pagination'
-      //   });
-      // });
+    ...mapMutations([
+      'RECORD_ADDRESS', 'SAVE_GEOHASH'
+    ]),
+    async fetchData() {
+      if (!this.latitude) {
+        //获取位置信息
+        let r = await msiteAddress(this.geohash);
+        // 记录当前经度纬度进入vuex
+        this.RECORD_ADDRESS(r);
+        //获取商铺信息
+        this.shopDetailData = await shopDetails(this.shopId, this.latitude, this.longitude);
+        //获取商铺食品列表
+        this.menuList = await foodMenu(this.shopId);
+        //评论列表
+        this.ratingList = await getRatingList(this.shopId, this.ratingOffset);
+        //商铺评论详情
+        this.ratingScoresData = await ratingScores(this.shopId);
+        //评论Tag列表
+        this.ratingTagsList = await ratingTags(this.shopId);
+        this.showLoading = false;        // 加载动画结束
+      }
     },
-    // 解码url地址，求restaurant_category_id值
-    // getCategoryId(url) {
-      // let urlData = decodeURIComponent(url.split('=')[1].replace('&target_name', ''));
-      // if(/restaurant_category_id/gi.test(urlData)) {
-      //   return JSON.parse(urlData).restaurant_category_id.id;
-      // }else {
-      //   return '';
-      // }
-    // }
+    // changeShowType(type) {
+
+    // },
+    chooseMenu (index) {},
+    showTitleDetail (index) {},
+    /**
+     * 子组件事件触发，调用的方法
+     */
+    //显示规格列表
+    showChooseList (foods) {},
+    listenInCart () {},
+    showReduceTip () {},
+    showMoveDotFun () {},
+    // 清空购物车
+    clearCart () {},
+    removeOutCart (category_id, item_id, food_id, name, price, specs) {},
+    addToCart (category_id, item_id, food_id, name, price, specs) {},
+    toggleCartList () {},
+    loaderMoreRating () {}
+
   }
 }
 </script>

@@ -2,7 +2,9 @@ import {
 	GET_USERINFO,
   SAVE_ADDRESS,
   SAVE_GEOHASH,
-  RECORD_ADDRESS
+  RECORD_ADDRESS,
+  ADD_CART,
+  REDUCE_CART
 } from './mutation-types.js'
 
 
@@ -33,8 +35,12 @@ export default {
   },
   //记录当前经度纬度
   [RECORD_ADDRESS](state, {latitude, longitude}) {
-    // console.log('latitude'+latitude +'---longitude' +longitude);
+    console.log('latitude'+latitude +'---longitude' +longitude);
     state.latitude = latitude;
     state.longitude = longitude;
-  }
+  },
+  // 加入购物车
+  [ADD_CART] () {},
+  // 移出购物车
+  [REDUCE_CART] () {}
 }

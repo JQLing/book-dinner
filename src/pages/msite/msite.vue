@@ -8,7 +8,7 @@
       .swiper-container(v-if="foodClass")
         .swiper-wrapper
           .swiper-slide(v-for="(item, index) in foodClass" :key="index")
-            router-link(v-for="val in item" :key="val.id" :to="{name: 'Food', query: {geohash: geohash, title: val.title, restaurant_category_id: getCategoryId(val.link)}}" tag="div")
+            section(v-for="val in item" :key="val.id" @click="goFood(val.title, getCategoryId(val.link))")
               figure.fl
                 img(:src="imgBaseUrl + val.image_url")
                 figcaption {{val.title}}
@@ -69,7 +69,17 @@ export default {
     });
   },
   mounted () {
+    // this.fetchData();
+    // console.log('mounted');
+  },
+  /** 当引入keep-alive 的时候，
+   * 页面第一次进入，钩子的触发顺序created-> mounted-> activated，退出时触发deactivated。
+   * 当再次进入（前进或者后退）时，只触发activated。
+   */
+  activated() {
+    
     this.fetchData();
+    console.log('activated');
   },
   methods: {
     ...mapMutations([
@@ -83,16 +93,27 @@ export default {
           this.foodClass[j] = arr.splice(0, 8);     // 返回新数组，包含被删除的项
         }
       }).then(() => {
-        let mySwiper = new Swiper ('.swiper-container', {
-          // loop: true,
-          pagination: '.swiper-pagination',
-          paginationClickable: true,
-          hashnav:true,
-          observer:true,           //修改swiper自己或子元素时，自动初始化swiper
-          observeParents:true,   //修改swiper的父元素时，自动初始化swiper
-          onSlideChangeEnd: function(swiper){
-            swiper.update();
-          }
+        this.$nextTick(function () {
+          let mySwiper = new Swiper ('.swiper-container', {
+            // loop: true,
+            pagination: '.swiper-pagination',
+            paginationClickable: true,
+            hashnav:true,
+            observer:true,             //修改swiper自己或子元素时，自动初始化swiper
+            observeParents:true       //修改swiper的父元素时，自动初始化swiper
+            // initialSlide: activeIndex,
+            // onSlideChangeEnd: function(swiper) {
+            //   let _activeIndex = swiper.activeIndex;
+            //   _this.$route.params.activeIndex = _activeIndex;
+
+            //   window.$router.replace({
+            //     name: _this.route.name,
+            //     params: _this.route.params,
+            //     query: _this.$route.query
+            //   });
+            //   _this.transferDetail = _this.allData.pl
+            // }
+          });
         });
       });
     },
@@ -104,7 +125,17 @@ export default {
       }else {
         return '';
       }
-    }
+    },
+    goFood(title, restaurant_category_id) {
+      this.$router.push({
+        name: 'Food',
+        query: {
+          geohash: this.geohash,
+          title: title,
+          restaurant_category_id: restaurant_category_id
+        }
+      });
+    },
   }
 }
 </script>

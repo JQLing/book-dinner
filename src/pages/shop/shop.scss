@@ -1,0 +1,212 @@
+@import '../../assets/css/mixin';
+header{
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0 0.4rem 0.4rem;
+  background-color: rgba(119, 103, 137, 0.43);
+  overflow: hidden;
+}
+.goback{
+  flex: 0.2;
+}
+.back{
+  @include wh(0.6rem, 0.8rem);
+  margin-right: 0.2rem;
+}
+.shopInfo{
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+}
+.next{
+  flex:0.2;
+}
+.gonext{
+  position: relative;
+  right: 0.5rem;
+  @include wh(0.6rem, 0.8rem);
+}
+.shop_pic{
+  flex: 0.4;
+  width: 2rem;
+  height: 2rem;
+  margin-right: 0.3rem;
+}
+.info{
+  flex: 0.4;
+}
+.info h3{
+  margin-bottom: 0.3rem;
+  @include sc(0.8rem, #fff);
+  font-weight: bold;
+}
+.info p{
+  margin-bottom: 0.3rem;
+  @include sc(0.5rem, #fff);
+}
+.chooseType{
+  display: flex;
+  justify-content: space-between;
+  padding: .3rem 0 .6rem;
+  border-bottom: 0.025rem solid $bc;
+  background: #fff;
+}
+.chooseType .on{
+  color: #3190e8;
+  border-color: #3190e8;
+}
+.chooseType li{
+  flex: 1;
+  padding: .2rem .1rem;
+  text-align: center;
+  @include sc(0.65rem, #666);
+}
+.chooseType span{
+  padding: .2rem .1rem;
+  border-bottom: 0.12rem solid #fff;
+}
+main{
+  width: 100%;
+  overflow: hidden;
+}
+.menu_container{
+  display: flex;
+  justify-content: flex-start;
+}
+.menu_left{
+  flex: 1;
+}
+.menu_right{
+  flex: 4;
+}
+// 商品
+.menu_icon{
+  @include wh(0.5rem, 0.6rem);
+  margin-right: 0.5rem;
+}
+.menu_tit{
+  @include sc(0.6rem, #666);
+}
+.classifiy .activity_menu {
+  border-left: 0.15rem solid $blue;
+  background-color: #fff;
+  font-weight: bold;
+}
+.classifiy li {
+  padding: .7rem .3rem;
+  border-bottom: 0.025rem solid #ededed;
+  box-sizing: border-box;
+  border-left: 0.15rem solid #f8f8f8;
+  position: relative;
+}
+
+.menu_detail_tit{
+  width: 100%;
+  padding: .4rem;
+}
+.menu_detail_left{
+  width: 11rem;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.menu_item_title{
+  margin-right: 0.5rem;
+  @include sc(0.7rem, #666);
+  font-weight: bold;
+}
+.menu_item_description{
+  width: 30%;
+  overflow: hidden;
+  @include sc(0.5rem, #999);
+}
+.menu_detail_right{
+  width: 0.5rem;
+  height: 1rem;
+  background: url('../../assets/img/icon_point.png')
+}
+.menu_detail_list {
+  position: relative;
+  padding: .6rem .4rem;
+  border-bottom: 1px solid #f8f8f8;
+  background-color: #fff;
+  overflow: hidden;
+}
+.menu_detail_item{
+  display: flex;
+  justify-content: space-between;
+}
+.food_icon{
+  // flex: 1;
+  @include wh(2rem, 2rem);
+  margin-right: .4rem;
+}
+.menu_food_description{
+  // flex: 3;
+}
+.menu_food_description h3{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: .2rem;
+}
+.food_tit{
+  @include sc(0.7rem, #333);
+}
+.food_description_content{
+  @include sc(0.5rem, #999);
+  line-height: .6rem;
+}
+.food_description_sale_rating{
+  line-height: 1rem;
+  @include sc(0.5rem, #333);
+}
+.month_sales{
+  margin-right: .4rem;
+}
+.food_activity{
+  line-height: .4rem;
+  margin-left: -0.7rem;
+  margin-top: .3rem;
+  font-size: .3rem;
+  transform: scale(0.8);
+}
+.food_activity span{
+  padding: .08rem 0.2rem;
+  border-radius: 0.3rem;
+  border: 0.025rem solid #f60;
+}
+.food_price{
+  margin-top: .3rem;
+  @include sc(0.5rem, #666);
+}
+.price_icon{
+  @include sc(0.5rem, #f60);
+  margin-right: .05rem;
+}
+.price_num{
+  @include sc(0.7rem, #f60);
+  font-weight: bold;
+  margin-right: .3rem;
+}
+.menu_detail_footer{
+  display: flex;
+  justify-content: space-between;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.attribute_new{}
+.cart_icon_activity{}
+.move_in_cart{}
+.gotopay_acitvity{}
