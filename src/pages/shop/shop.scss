@@ -210,3 +210,13 @@ main{
 .cart_icon_activity{}
 .move_in_cart{}
 .gotopay_acitvity{}
+
+.specs_activity{}
+
+.show_delete_tip{
+  height: 1rem;
+  padding: 0.5rem 0;
+  background: rgba(119, 103, 137, 0.43);
+  @include sc(0.5rem, #999);
+  text-align: center;
+}

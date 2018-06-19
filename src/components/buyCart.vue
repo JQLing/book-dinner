@@ -1,11 +1,11 @@
 <template lang="pug">
   .addCart
-    // 点击 “规格”
+    // 点击 “规格”（- 6 选规格）
     section.choose_spec(v-if="foods.specifications.length")
-      span.disable_btn(v-if="" @click="") -
+      span.disable_btn(v-if="" @click="showReduceTip") -
       span.num(v-if="") 6
-      span.spec_btn(@click="") 选规格
-    // 点击 “+”
+      span.spec_btn(@click="showChooseList(foods)") 选规格
+    // 点击 “+”（- 6 +）
     section.choose_add(v-else)
       span.reduce_btn(v-if="" @click="") -
       span.num(v-if="") 66
@@ -28,7 +28,14 @@ export default {
   },
   mounted () {},
   methods: {
-
+    // 点击‘规格’ 左侧的 ‘-’，触发'showReduceTip'事件（父组件，显示 多规格商品只能去购物车删除 弹框）
+    showReduceTip() {
+      this.$emit('showReduceTip');
+    },
+    // 点击‘规格’, 触发'showChooseList'事件（父组件，显示 规格弹框） 
+    showChooseList(foods) {
+      this.$emit('showChooseList');
+    }
   }
 }
 </script>
