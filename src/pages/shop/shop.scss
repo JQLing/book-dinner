@@ -72,14 +72,23 @@ main{
   overflow: hidden;
 }
 .menu_container{
+  position: relative;
   display: flex;
-  justify-content: flex-start;
+  flex: 1;
+  overflow-y: hidden;
 }
 .menu_left{
-  flex: 1;
+  // position: fixed;
+  // left: 0;
+  // top: 0;
+  // z-index: 3;
+  width: 3.8rem;
+  background: #fff;
 }
 .menu_right{
+  // margin-left: 4rem;
   flex: 4;
+  overflow-y: auto;
 }
 // 商品
 .menu_icon{
@@ -193,12 +202,51 @@ main{
   display: flex;
   justify-content: space-between;
 }
-
-
-
-
-
-
+// 购物车
+.buy_cart_container{
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 10;
+  width: 100%;
+  height: 2rem;
+  background-color: #3d3d3f;
+  
+}
+.cart_icon_container{}
+.totalNum{}
+.icon_cart{
+  width: .6rem;
+  height: .6rem;
+}
+.cart_num{
+  color: #fff;
+}
+.sum{
+  font-size: .8rem;
+  // @
+  font-weight: bold;
+  margin-bottom: .1rem;
+}
+.deliMoney{
+  font-size: .4rem;
+}
+.gotopay{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5rem;
+  height: 100%;
+  background-color: #535356;
+}
+.gotopay_acitvity{
+  background-color: #4cd964;
+}
+.gotopay_btn_dis{
+  font-size: .7rem;
+  font-weight: bold;
+}
+.gotopay_btn_en{}
 
 
 
@@ -242,9 +290,7 @@ main{
   75%  { transform: scale(.9) }
   100% { transform: scale(1) }
 }
-.gotopay_acitvity{
-  background-color: #4cd964;
-}
+
 
 .specs_activity{
   border-color: $blue;

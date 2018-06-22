@@ -65,15 +65,15 @@
             .cart_icon_num(@click="toggleCartList")
               // 小圆点到达目标位置，执行放大缩小动画（动画结束...)
               p.cart_icon_container(ref="cartContainer" :class="{cart_icon_activity: totalPrice > 0, move_in_cart: receiveInCart}" )
-                span(v-if="totalNum") {{totalNum}}
-                // img
-                span 购物车
+                span.totalNum(v-if="totalNum") {{totalNum}}
+                img.icon_cart(:src="cart")
+                // span 购物车
               p.cart_num
-                span ¥ {{totalPrice}}
-                span 配送费 ¥{{deliveryFee}}
+                span.sum ¥ {{totalPrice}}
+                span.deliMoney 配送费 ¥{{deliveryFee}}
             p.gotopay(:class="{gotopay_acitvity: minimumOrderAmount <= 0}")
-              span.gotopay_button_style(v-if="minimumOrderAmount > 0") 还差¥{{minimumOrderAmount}}起送
-              router-link(v-else :to="{path:'/confirmOrder', query:{geohash, shopId}}") 去结算
+              span.gotopay_btn_dis(v-if="minimumOrderAmount > 0") 还差¥{{minimumOrderAmount}}起送
+              router-link.gotopay_btn_en(v-else :to="{path:'/confirmOrder', query:{geohash, shopId}}") 去结算
           .cart_food_list( v-show="showCartList && cartFoodList.length")
             div
               h4 购物车
@@ -147,6 +147,7 @@ export default {
       geohash: '', 
       back: require('@/assets/img/icon_back.png'),
       go: require('@/assets/img/icon_more.png'),
+      cart: require('@/assets/img/cart_icon.jpg'),
       imgBaseUrl,
       showLoading: true,
       shopDetailData: null,               //商铺详情
@@ -214,6 +215,8 @@ export default {
       this.ratingScoresData = await ratingScores(this.shopId);
       //评论Tag列表
       this.ratingTagsList = await ratingTags(this.shopId);
+
+      this.RECORD_SHOPDETAIL(this.shopDetailData);
       this.showLoading = false;        // 加载动画结束
     },
     //多规格商品加入购物车
@@ -261,8 +264,18 @@ export default {
     listenInCart () {
       // animationstart - CSS 动画开始后触发
       // animationend 事件在 CSS 动画完成后触发。
+      if(!this.receiveInCart) {
+        this.receiveInCart = true;
+        this.$refs.cartContainer.addEventListener('animationend', () => {
+          this.receiveInCart = false;
+        });
+        this.$refs.cartContainer.addEventListener('webkitAnimationEnd', () => {
+          this.receiveInCart = false;
+        });
+      }
     },
     // ------------------------- 子组件事件触发，调用的方法  End
+
     // 下落圆点  运动
     beforeEnter(el) {
       el.style.transform = `translate3d(0, ${37 + this.elBottom - this.windowHeight}px, 0)`;
@@ -292,18 +305,31 @@ export default {
     initCategoryNum(){
 
     },
+    //加入购物车，所需7个参数: 商铺id，食品分类id，食品id，食品规格id，食品名字，食品价格，食品规格
+    addToCart (category_id, item_id, food_id, name, price, specs) {
+      this.ADD_CART({shopid: this.shopId, category_id, item_id, food_id, name, price, specs});
+    },
+    //移出购物车
+    removeOutCart (category_id, item_id, food_id, name, price, specs) {
+      this.REDUCE_CART({shopid: this.shopId, category_id, item_id, food_id, name, price, specs});
+    },
     // 清空购物车
-    clearCart () {},
-    removeOutCart (category_id, item_id, food_id, name, price, specs) {},
-    addToCart (category_id, item_id, food_id, name, price, specs) {},
+    clearCart () {
+      // this.toggleCartList();
+      this.CLEAR_CART(this.shopId);
+    },
+    //控制购物列表是否显示
     toggleCartList () {},
+    //加载更多评论
     loaderMoreRating () {},
     // changeShowType(type) {
 
     // },
     chooseMenu (index) {},
     showTitleDetail (index) {},
-    
+    goback(){
+      this.$router.go(-1);
+    }
   }
 }
 </script>
