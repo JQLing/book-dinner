@@ -135,7 +135,7 @@ main{
 }
 .menu_detail_item{
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
 }
 .food_icon{
   // flex: 1;
@@ -207,11 +207,49 @@ main{
 
 
 .attribute_new{}
-.cart_icon_activity{}
-.move_in_cart{}
-.gotopay_acitvity{}
+// 购物车
+.cart_icon_activity{
+  background-color: $blue;
+}
+.move_in_cart{
+  animation: mymove .5s ease-in-out;
+}
+@keyframes mymove{
+  0%   { transform: scale(1) }
+  25%  { transform: scale(.8) }
+  50%  { transform: scale(1.1) }
+  75%  { transform: scale(.9) }
+  100% { transform: scale(1) }
+}
+@-moz-keyframes mymove{
+  0%   { transform: scale(1) }
+  25%  { transform: scale(.8) }
+  50%  { transform: scale(1.1) }
+  75%  { transform: scale(.9) }
+  100% { transform: scale(1) }
+}
+@-webkit-keyframes mymove{
+  0%   { transform: scale(1) }
+  25%  { transform: scale(.8) }
+  50%  { transform: scale(1.1) }
+  75%  { transform: scale(.9) }
+  100% { transform: scale(1) }
+}
+@-o-keyframes mymove{
+  0%   { transform: scale(1) }
+  25%  { transform: scale(.8) }
+  50%  { transform: scale(1.1) }
+  75%  { transform: scale(.9) }
+  100% { transform: scale(1) }
+}
+.gotopay_acitvity{
+  background-color: #4cd964;
+}
 
-.specs_activity{}
+.specs_activity{
+  border-color: $blue;
+  color: $blue;
+}
 
 .show_delete_tip{
   height: 1rem;
@@ -220,3 +258,38 @@ main{
   @include sc(0.5rem, #999);
   text-align: center;
 }
+.dotNum{
+  min-width: 1rem;
+  margin: 0 0.5rem;
+  text-align: center;
+  font-family: Helvetica Neue,Tahoma;
+  @include sc(0.65rem, #666);
+}
+// .fade-enter-active, .fade-leave-active {
+//   transition: opacity .5s;
+// }
+// .fade-enter, .fade-leave-active {
+//   opacity: 0;
+// }
+// .fade-choose-enter-active, .fade-choose-leave-active {
+//   transition: opacity .5s;
+// }
+// .fade-choose-leave, .fade-choose-leave-active {
+//   display: none;
+// }
+// .fade-choose-enter, .fade-choose-leave-active {
+//   opacity: 0;
+// }
+// .router-slid-enter-active, .router-slid-leave-active {
+//   transition: all .4s;
+// }
+// .router-slid-enter, .router-slid-leave-active {
+//   transform: translate3d(2rem, 0, 0);
+//   opacity: 0;
+// }
+// .toggle-cart-enter-active, .toggle-cart-leave-active {
+//   transition: all .3s ease-out;
+// }
+// .toggle-cart-enter, .toggle-cart-leave-active {
+//   transform: translateY(100%);
+// }

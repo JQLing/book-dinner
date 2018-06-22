@@ -12,14 +12,14 @@ export default {
       load: require('@/assets/img/loading.gif')
     }
   },
-  computed: {
-  },
-  mixin: {
-  },
-  components: {
-  },
-  watch: {
-  },
+  // computed: {
+  // },
+  // mixin: {
+  // },
+  // components: {
+  // },
+  // watch: {
+  // },
   mounted () {
     this.fetchData();
   },
