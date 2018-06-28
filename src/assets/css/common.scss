@@ -85,3 +85,29 @@ html,body{
   height: 100%;
   background-color: rgba(0, 0, 0, 0.3);
 }
+
+
+
+@import '../../assets/css/mixin'; 
+.reduce_btn{
+  @include wh(0.9rem, 0.9rem);
+  padding: 0.1rem 0.3rem;
+  border: 0.025rem solid $blue;
+  border-radius: 50%;
+  background: #fff;
+  @include sc(0.65rem, $blue);
+}
+.add_btn{
+  @include wh(0.9rem, 0.9rem);
+  padding: 0.1rem 0.3rem;
+  border-radius: 50%;
+  background: $blue;
+  @include sc(0.65rem, #fff);
+}
+.num_now{
+  min-width: 1rem;
+  margin: 0 0.5rem;
+  text-align: center;
+  font-family: Helvetica Neue,Tahoma;
+  @include sc(0.65rem, #666);
+}

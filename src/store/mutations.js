@@ -95,7 +95,7 @@ export default {
       state.cartList = JSON.parse(cart);
     }
   },
-  //清空当前商品的购物车信息
+  //清空当前商铺的购物车信息
   [CLEAR_CART](state, shopid) {
     state.cartList[shopid] = null;
     state.cartList = {...state.cartList};

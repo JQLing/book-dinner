@@ -5,15 +5,15 @@
       transition(name="showReduce")
         span.disable_btn(v-if="foodNum" @click="showReduceTip") -
       transition(name="fade")
-        span.num(v-if="foodNum") {{foodNum}}
+        span.num_now(v-if="foodNum") {{foodNum}}
       span.spec_btn(@click="showChooseList(food)") 选规格
     // 点击 “+”      （- 6 +）
     section.choose_add(v-else)
       transition(name="showReduce")
-        span.reduce_btn(v-if="foodNum" @click="removeOutCart") -
+        span.reduce_btn(v-if="foodNum" @click="removeOutCart(food.category_id, food.item_id, food.specfoods[0].food_id, food.specfoods[0].name, food.specfoods[0].price, '', food.specfoods[0].packing_fee, food.specfoods[0].sku_id, food.specfoods[0].stock)") -
       transition(name="fade")
-        span.num(v-if="foodNum") {{foodNum}}
-      span.add_btn(@click="addToCart") +
+        span.num_now(v-if="foodNum") {{foodNum}}
+      span.add_btn(@touchstart="addToCart(food.category_id, food.item_id, food.specfoods[0].food_id, food.specfoods[0].name, food.specfoods[0].price, '', food.specfoods[0].packing_fee, food.specfoods[0].sku_id, food.specfoods[0].stock, $event)") +
 </template>
 <script>
 import {mapState, mapMutations} from 'vuex'
@@ -31,7 +31,6 @@ export default {
     ]),
     // 监听cartList变化，更新当前商铺的购物车信息shopCart，同时返回一个新的对象
     shopCart: function() {
-      console.log(this.cartList[this.shopId]);
       // Object.assign方法用于对象的合并，将源对象（ source ）的所有可枚举属性，复制到目标对象（ target ）。
       // 如果目标对象与源对象有同名属性，或多个源对象有同名属性，则后面的属性会覆盖前面的属性。
       // Object.assign(obj, undefined) === obj // true  
@@ -41,13 +40,12 @@ export default {
       let category_id = this.food.category_id;
       let item_id = this.food.item_id;
 
-      if(this.shopCart && this.shopCart[category_id] && shopCart[category_id][item.id]) {
+      if(this.shopCart && this.shopCart[category_id] && this.shopCart[category_id][item_id]) {
         let num = 0;
-        alert(Object.values(shopCart[category_id][item.id]))
         // Object.keys方法，返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历（ enumerable ）属性的键名。
         // Object.values方法返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历（ enumerable ）属性的键值。
         // Object.entries方法返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历（ enumerable ）属性的键值对数组。
-        Object.values(shopCart[category_id][item.id]).forEach((food_id) => {
+        Object.values(this.shopCart[category_id][item_id]).forEach((food_id) => {
           num += food_id.num;
         });
           return num;
@@ -67,12 +65,13 @@ export default {
     },
     // 点击‘规格’, 触发'showChooseList'事件（父组件，显示 规格弹框） 
     showChooseList(food) {
-      this.$emit('showChooseList');
+      this.$emit('showChooseList', food);
     },
     //点击 ‘ + ’ 下落圆球 抛物线运动
     addToCart(category_id, item_id, food_id, name, price, specs, packing_fee, sku_id, stock, event) {
       this.ADD_CART({shopid: this.shopId, category_id, item_id, food_id, name, price, specs, packing_fee, sku_id, stock});
       this.showMoveDot.push(true);
+      
       // Element.getBoundingClientRect()方法返回元素的大小及其相对于视口左上角的位置。
       let elLeft = event.target.getBoundingClientRect().left;
       let elBottom = event.target.getBoundingClientRect().bottom;
@@ -109,27 +108,27 @@ export default {
   @include sc(0.55rem, #fff);
   background-color: $blue;
 }
-.reduce_btn{
-  @include wh(0.9rem, 0.9rem);
-  padding: 0.1rem 0.2rem;
-  border: 0.025rem solid $blue;
-  border-radius: 50%;
-  background: #fff;
-  @include sc(0.65rem, $blue);
-}
-.add_btn{
-  @include wh(0.9rem, 0.9rem);
-  padding: 0.1rem 0.2rem;
-  border-radius: 50%;
-  background: $blue;
-  @include sc(0.65rem, #fff);
-}
-.num{
-  min-width: 1rem;
-  margin: 0 0.5rem;
-  text-align: center;
-  font-family: Helvetica Neue,Tahoma;
-  @include sc(0.65rem, #666);
-}
+// .reduce_btn{
+//   @include wh(0.9rem, 0.9rem);
+//   padding: 0.1rem 0.3rem;
+//   border: 0.025rem solid $blue;
+//   border-radius: 50%;
+//   background: #fff;
+//   @include sc(0.65rem, $blue);
+// }
+// .add_btn{
+//   @include wh(0.9rem, 0.9rem);
+//   padding: 0.1rem 0.3rem;
+//   border-radius: 50%;
+//   background: $blue;
+//   @include sc(0.65rem, #fff);
+// }
+// .num_now{
+//   min-width: 1rem;
+//   margin: 0 0.5rem;
+//   text-align: center;
+//   font-family: Helvetica Neue,Tahoma;
+//   @include sc(0.65rem, #666);
+// }
 </style>
 

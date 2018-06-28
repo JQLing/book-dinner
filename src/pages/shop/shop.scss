@@ -1,7 +1,17 @@
 @import '../../assets/css/mixin';
+.shop_container{
+  position: absolute;
+  // top: 0;
+  right: 0;
+  // bottom: 0;
+  left: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
 header{
   position: relative;
-  z-index: 10;
+  z-index: 2;
   display: flex;
   justify-content: space-between;
   padding: 0.4rem 0 0.4rem 0.4rem;
@@ -67,9 +77,12 @@ header{
   padding: .2rem .1rem;
   border-bottom: 0.12rem solid #fff;
 }
-main{
-  width: 100%;
-  overflow: hidden;
+// main{
+//   width: 100%;
+// }
+.food_container{
+  flex: 1;
+  padding-bottom: 2rem;
 }
 .menu_container{
   position: relative;
@@ -78,12 +91,7 @@ main{
   overflow-y: hidden;
 }
 .menu_left{
-  // position: fixed;
-  // left: 0;
-  // top: 0;
-  // z-index: 3;
   width: 3.8rem;
-  background: #fff;
 }
 .menu_right{
   // margin-left: 4rem;
@@ -97,6 +105,20 @@ main{
 }
 .menu_tit{
   @include sc(0.6rem, #666);
+}
+.category_num{
+  position: absolute;
+  top: .1rem;
+  right: .1rem;
+  background-color: #ff461d;
+  line-height: .6rem;
+  text-align: center;
+  border-radius: 50%;
+  border: 0.025rem solid #ff461d;
+  min-width: .6rem;
+  height: .6rem;
+  @include sc(0.5rem, #fff);
+  font-family: Helvetica Neue,Tahoma,Arial;
 }
 .classifiy .activity_menu {
   border-left: 0.15rem solid $blue;
@@ -144,15 +166,13 @@ main{
 }
 .menu_detail_item{
   display: flex;
-  // justify-content: space-between;
 }
 .food_icon{
-  // flex: 1;
   @include wh(2rem, 2rem);
   margin-right: .4rem;
 }
 .menu_food_description{
-  // flex: 3;
+  flex: 1;
 }
 .menu_food_description h3{
   display: flex;
@@ -213,40 +233,213 @@ main{
   background-color: #3d3d3f;
   
 }
-.cart_icon_container{}
-.totalNum{}
+.cart_icon_num{
+  position: relative;
+}
+.totalNum{
+  position: absolute;
+  left: 1.8rem;
+  top: -0.95rem;
+  z-index: 5;
+  background-color: #ff461d;
+  line-height: .7rem;
+  text-align: center;
+  border-radius: 50%;
+  border: 0.025rem solid #ff461d;
+  min-width: .7rem;
+  height: .7rem;
+  @include sc(0.5rem, #fff);
+  font-family: Helvetica Neue,Tahoma,Arial;
+}
 .icon_cart{
-  width: .6rem;
-  height: .6rem;
+  position: absolute;
+  left: .5rem;
+  top: -.7rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
 }
 .cart_num{
+  position: absolute;
+  left: 3.5rem;
+  top: 50%;
+  // transform: translateY(-50%);
   color: #fff;
 }
 .sum{
-  font-size: .8rem;
-  // @
+  @include sc(.8rem, #fff);
   font-weight: bold;
-  margin-bottom: .1rem;
+  // margin-bottom: .1rem;
 }
 .deliMoney{
-  font-size: .4rem;
+  @include sc(.4rem, #fff);
 }
 .gotopay{
+  position: absolute;
+  right: 0rem;
+  top: 0rem;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 5rem;
   height: 100%;
-  background-color: #535356;
 }
 .gotopay_acitvity{
   background-color: #4cd964;
 }
 .gotopay_btn_dis{
-  font-size: .7rem;
+  width: 100%;
+  height: 100%;
+  @include sc(.7rem, #fff);
+  font-weight: bold;
+  line-height: 2rem;
+  text-align: center;
+  background-color: #535356;
+}
+.gotopay_btn_en{
+  display: block;
+  width: 100%;
+  height: 100%;
+  @include sc(.7rem, #fff);
+  font-weight: bold;
+  line-height: 2rem;
+  text-align: center;
+  background-color: #4cd964;
+}
+// 购物车 弹框
+.cart_food_list{
+  position: fixed;
+  width: 100%;
+  margin-bottom: 2rem;
+  z-index: 3;
+  bottom: 0;
+  left: 0;
+  background-color: #fff;
+}
+.cart_list_tit{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .3rem .6rem;
+  background-color: #eceff1;
+}
+.cart_text{
+  @include sc(.7rem, #666);
+}
+.empty{
+  @include sc(.6rem, #666);
+}
+.cart_food_details{
+  background-color: #fff;
+  max-height: 20rem;
+  overflow-y: auto;
+}
+.cart_food_details li{
+  display: flex;
+  justify-content: space-between;
+  padding: .6rem .5rem;
+}
+.cart_list_num{
+  width: 55%;
+}
+.cart_list_num span:nth-child(1) {
+  @include sc(.7rem, #666);
+  font-weight: bold;
+  margin-right: 0.4rem;
+}
+.cart_list_num span:nth-child(2) {
+  @include sc(.4rem, #666);
+}
+.cart_list_price span:nth-child(1) {
+  @include sc(.6rem, #f60);
+  font-family: Helvetica Neue,Tahoma;
+}
+.cart_list_price span:nth-child(2) {
+  @include sc(.7rem, #f60);
+  font-family: Helvetica Neue,Tahoma;
   font-weight: bold;
 }
-.gotopay_btn_en{}
+// 规格弹框
+.spec_pop{
+  width: 100%;
+  
+}
+.specs_list{
+  @include center;
+  z-index: 20;
+  width: 70%;
+  border-radius: 6px;
+  background: #fff;
+}
+.spec_name{
+  padding: .5rem;
+  line-height: 1rem;
+  text-align: center;
+  @include sc(0.7rem, #222);
+  font-weight: normal;
+  
+}
+.close{
+  position: absolute;
+  top: .3rem;
+  right: .5rem;
+  @include sc(1rem, #222);
+}
+.specs_details{
+  padding: .5rem;
+}
+.specs_details .tit{
+  margin-bottom: 0.4rem;
+  @include sc(0.6rem, #666);
+}
+.spec_box {
+  display: flex;
+}
+.spec_box li{
+  flex: 1;
+  padding: .3rem .5rem;
+  border: 0.025rem solid #ddd;
+  border-radius: .2rem;
+  margin-right: .5rem;
+  margin-bottom: .2rem;
+  @include sc(0.6rem, #666);
+  text-align: center;
+}
+.spec_box .specs_activity{
+  border-color: $blue;
+  color: $blue;
+}
+.spec_add{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  border: 0.025rem;
+  border-bottom-left-radius: .2rem;
+  border-bottom-right-radius: .2rem;
+  background-color: #f9f9f9;
+}
+.spec_price span:nth-child(1){
+  @include sc(.5rem, #ff6000);
+}
+.spec_price span:nth-child(2){
+  @include sc(.8rem, #ff6000);
+  font-weight: bold;
+  font-family: Helvetica Neue,Tahoma;
+}
+.spec_addto{
+  width: 4rem;
+  height: 1.3rem;
+  background-color: #3199e8;
+  border: 0.025rem;
+  border-radius: 0.15rem;
+  @include sc(.6rem, #fff);
+  text-align: center;
+  line-height: 1.3rem;
+}
+
+
+
 
 
 
@@ -290,18 +483,14 @@ main{
   75%  { transform: scale(.9) }
   100% { transform: scale(1) }
 }
-
-
-.specs_activity{
-  border-color: $blue;
-  color: $blue;
-}
-
 .show_delete_tip{
-  height: 1rem;
-  padding: 0.5rem 0;
-  background: rgba(119, 103, 137, 0.43);
-  @include sc(0.5rem, #999);
+  @include center;
+  width: 60%;
+  height: 2rem;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 1);
+  @include sc(0.5rem, #fff);
+  line-height: 2rem;
   text-align: center;
 }
 .dotNum{
@@ -311,6 +500,27 @@ main{
   font-family: Helvetica Neue,Tahoma;
   @include sc(0.65rem, #666);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // .fade-enter-active, .fade-leave-active {
 //   transition: opacity .5s;
 // }

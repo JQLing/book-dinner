@@ -13,7 +13,8 @@
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuex": "^2.0.0",
-    "pug": "^2.0.0-beta11"
+    "pug": "^2.0.0-beta11",
+    "better-scroll": "^0.1.15"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

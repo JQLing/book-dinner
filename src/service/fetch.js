@@ -1,6 +1,6 @@
-import {baseUrl} from '@/assets/js/env'
+import { baseUrl } from '../assets/js/env'
 
-export default async (url= '', data = {}, type = 'GET', method = 'fetch') => {
+export default async (url = '', data = {}, type = 'GET', method = 'fetch') => {
   type = type.toUpperCase();
   url = baseUrl + url;
   if(type == 'GET') {
@@ -23,8 +23,8 @@ export default async (url= '', data = {}, type = 'GET', method = 'fetch') => {
 				'Accept': 'application/json',      // 用户代理可处理的媒体类型
 				'Content-Type': 'application/json' // 报文主体对象类型
 			},
-			mode: "cors",   // 跨域
-      cache: "force-cache"
+			mode: 'cors',   // 跨域
+      cache: 'force-cache'
       // body: ""         // 要发送到后台的参数
     };
     // JSON.parse(string) ：接受一个 JSON 字符串并将其转换成一个 JavaScript 对象。    jsonStr ='{"name":"Liza", "password":"123"}'
@@ -75,6 +75,6 @@ export default async (url= '', data = {}, type = 'GET', method = 'fetch') => {
 					}
 				}
 			}
-		})
+		});
   }
-};
+}
