@@ -362,7 +362,6 @@ header{
 // 规格弹框
 .spec_pop{
   width: 100%;
-  
 }
 .specs_list{
   @include center;
@@ -377,7 +376,6 @@ header{
   text-align: center;
   @include sc(0.7rem, #222);
   font-weight: normal;
-  
 }
 .close{
   position: absolute;
@@ -437,16 +435,6 @@ header{
   text-align: center;
   line-height: 1.3rem;
 }
-
-
-
-
-
-
-
-
-
-
 // .attribute_new{}
 // 购物车
 .cart_icon_activity{
@@ -500,19 +488,141 @@ header{
   font-family: Helvetica Neue,Tahoma;
   @include sc(0.65rem, #666);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
+// 评价
+.rating_container{
+  width: 100%;
+}
+.rating_head{
+  display: flex;
+  padding: .8rem .5rem;
+  margin-bottom: 0.5rem;
+  background: #fff;
+  text-align: center;
+}
+.rate_scroe{
+  flex: 3;
+}
+.scroe_num{
+  @include sc(1.2rem ,#f60);
+}
+.rate_all{
+  font-size: 0.65rem;
+  color: #666;
+  margin-bottom: .1rem;
+}
+.rate_over, .delivery_time{
+  @include sc(0.4rem ,#999);
+}
+.rate_star{
+  flex: 4;
+}
+.rate_star p{
+  line-height: 1rem;
+}
+.rating_num{
+  width: 3rem;
+  @include sc(0.55rem ,#f60);
+}
+.rate_star .tit{
+  @include sc(0.5rem ,#666);
+}
+.tag_list{
+  display: flex;
+  flex-wrap: wrap;
+  padding: .5rem;
+  background-color: #fff;
+  
+}
+.tag_list li{
+  padding: .3rem .3rem;
+  border-radius: 0.2rem;
+  border: 1px;
+  margin: 0 .4rem .2rem 0;
+  background-color: #ebf5ff;
+  @include sc(0.6rem ,#6d7885);
+}
+.tagActivity{
+  background-color: #3190e8;
+  color: #fff;
+}
+.unsatisfied{
+  background-color: #f5f5f5;
+  color: #aaa;
+}
+.rating_list{
+  padding: 0 .5rem;
+  background-color: #fff;
+}
+.rating_list li{
+  display: flex;
+  padding: .6rem 0;
+  border-top: 1px solid #f1f1f1;
+}
+.user_avatar{
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 0.025rem;
+  border-radius: 50%;
+  margin-right: .8rem;
+}
+.rating_list_detail{
+  flex: 1;
+}
+.username_info{
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  margin-bottom: .3rem;
+}
+.username{
+  font-size: 0.55rem;
+  color: #666;
+  margin-bottom: .2rem;
+}
+.star_desc{
+  display: flex;
+  align-items: center;
+}
+.star_container{
+  display: flex;
+  width: 2rem;
+  height: 0.4rem;
+  top: -0.02rem;
+  left: -0.02rem;
+}
+.time_spent_desc{
+  font-size: 0.55rem;
+  color: #666;
+  margin-left: .15rem;
+}
+.rated_at{
+  font-size: 0.4rem;
+  color: #999;
+}
+.food_img_list{
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: .4rem;
+}
+.food_img_list img{
+  display: block;
+  width: 3rem;
+  height: 3rem;
+  margin-right: .4rem;
+}
+.food_name_list {
+  display: flex;
+  flex-wrap: wrap;
+}
+.food_name_list li{
+  @include sc(0.55rem, #999);
+  width: 2.2rem;
+  padding: .2rem;
+  border: 0.025rem solid #ebebeb;
+  border-radius: 0.15rem;
+  margin-right: .3rem;
+  margin-bottom: 4px;
+}
 
 
 

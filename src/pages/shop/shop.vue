@@ -15,9 +15,9 @@
           img.gonext(:src="go")
       ul.chooseType(ref="choodeType")
         li( @click="changeShowType='food'") 
-          span.on(:class="") 商品
+          span(:class="{on: changeShowType =='food'}") 商品
         li( @click="changeShowType='rating'") 
-          span(:class="") 评价
+          span(:class="{on: changeShowType =='rating'}") 评价
       // main
       // 商品
       section.food_container(v-show="changeShowType =='food'")
@@ -99,6 +99,43 @@
       // 评价
       section.rating_container(v-show="changeShowType =='rating'")
         div(v-load-more="loaderMoreRating" type="2")
+          section
+            .rating_head
+              .rate_scroe
+                p.scroe_num {{shopDetailData.rating}}
+                p.rate_all 综合评价
+                p.rate_over 高于周边商家 {{(ratingScoresData.compare_rating * 100).toFixed(1)}}%
+              .rate_star
+                p
+                  span.tit 服务态度
+                  rating-star(:rating='ratingScoresData.service_score')
+                  span.rating_num {{parseFloat(ratingScoresData.service_score).toFixed(1)}}
+                p
+                  span.tit 菜品评价
+                  rating-star(:rating='ratingScoresData.food_score')
+                  span.rating_num {{parseFloat(ratingScoresData.food_score).toFixed(1)}}
+                p
+                  span.tit 送达时间
+                  span.delivery_time {{shopDetailData.order_lead_time}}分钟
+            ul.tag_list
+              li(v-for="(item, index) in ratingTagsList" @click="changeTgeIndex(index, item.name)" :class="{tagActivity: ratingTageIndex == index, unsatisfied: item.unsatisfied}" :key="index") {{item.name}} {{item.count}}
+            ul.rating_list
+              li(v-for="(item, index) in ratingList" :key="index")
+                img.user_avatar(:src="getImgPath(item.avatar)")
+                .rating_list_detail
+                  .username_info
+                    .username_star
+                      p.username {{item.username}}
+                      p.star_desc
+                        rating-star.star_container(:rating='item.rating_star')
+                        span.time_spent_desc {{item.time_spent_desc}}
+                    time.rated_at {{item.rated_at}}
+                  ul.food_img_list
+                    li(v-for="(item, index) in item.item_ratings" :key="index")
+                      img(v-if="item.image_hash" :src="getImgPath(item.image_hash)")
+                  ul.food_name_list
+                    li.ellipsis(v-for="(item, index) in item.item_ratings" :key="index") {{item.food_name}}
+                
     // 规格 弹框
     section.spec_pop
       transition(name="")
@@ -179,6 +216,7 @@ export default {
       foodScroll: null,                      //食品列表scroll
       menuIndex: 0,                          //已选菜单索引值，默认为0
       menuIndexChange: true,                 //解决选中index时，scroll监听事件重复判断设置index的bug
+      ratingTageIndex: 0                       // 评价分类索引
     }
   },
   computed: {
@@ -488,11 +526,21 @@ export default {
         this.menuIndexChange = true;
       });
     },
+    //商品、评论切换状态
+    changeShowType(type) {
+      if(type == 'food') {
+
+      } else if(type == 'rating') {
+
+      }
+    },
     //加载更多评论
     loaderMoreRating () {},
-    // changeShowType(type) {
+    
+    
+    changeTgeIndex(index, name){
 
-    // },
+    },
     showTitleDetail (index) {},
     goback(){
       this.$router.go(-1);
