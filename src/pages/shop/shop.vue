@@ -14,10 +14,10 @@
         router-link.next(:to="{name: 'Msite'}")
           img.gonext(:src="go")
       ul.chooseType(ref="choodeType")
-        li( @click="changeShowType='food'") 
-          span(:class="{on: changeShowType =='food'}") 商品
-        li( @click="changeShowType='rating'") 
-          span(:class="{on: changeShowType =='rating'}") 评价
+        li
+          span(@click="changeShowType='food'" :class="{on: changeShowType =='food'}") 商品
+        li
+          span(@click="changeShowType='rating'" :class="{on: changeShowType =='rating'}") 评价
       // main
       // 商品
       section.food_container(v-show="changeShowType =='food'")
@@ -97,7 +97,7 @@
                   span.add_btn(@click="addToCart(item.category_id, item.item_id, item.food_id, item.name, item.price, item.specs)") +
         .screen_cover(v-show="showCartList && cartFoodList.length" @click="toggleCartList")
       // 评价
-      section.rating_container(v-show="changeShowType =='rating'")
+      section.rating_container#ratingContainer(v-show="changeShowType =='rating'")
         div(v-load-more="loaderMoreRating" type="2")
           section
             .rating_head
@@ -108,17 +108,17 @@
               .rate_star
                 p
                   span.tit 服务态度
-                  rating-star(:rating='ratingScoresData.service_score')
+                  rating-star.star_num(:rating='ratingScoresData.service_score')
                   span.rating_num {{parseFloat(ratingScoresData.service_score).toFixed(1)}}
                 p
                   span.tit 菜品评价
-                  rating-star(:rating='ratingScoresData.food_score')
+                  rating-star.star_num(:rating='ratingScoresData.food_score')
                   span.rating_num {{parseFloat(ratingScoresData.food_score).toFixed(1)}}
                 p
                   span.tit 送达时间
                   span.delivery_time {{shopDetailData.order_lead_time}}分钟
             ul.tag_list
-              li(v-for="(item, index) in ratingTagsList" @click="changeTgeIndex(index, item.name)" :class="{tagActivity: ratingTageIndex == index, unsatisfied: item.unsatisfied}" :key="index") {{item.name}} {{item.count}}
+              li(v-for="(item, index) in ratingTagsList" @click="changeTagIndex(index, item.name)" :class="{tagActivity: ratingTageIndex == index, unsatisfied: item.unsatisfied}" :key="index") {{item.name}} {{item.count}}
             ul.rating_list
               li(v-for="(item, index) in ratingList" :key="index")
                 img.user_avatar(:src="getImgPath(item.avatar)")
@@ -129,6 +129,8 @@
                       p.star_desc
                         rating-star.star_container(:rating='item.rating_star')
                         span.time_spent_desc {{item.time_spent_desc}}
+                    // <time datetime="2008-02-14">情人节</time> 
+                    // datetime定义元素的日期和时间。如果未定义该属性，则必须在元素的内容中规定日期或时间。
                     time.rated_at {{item.rated_at}}
                   ul.food_img_list
                     li(v-for="(item, index) in item.item_ratings" :key="index")
@@ -163,7 +165,7 @@
         span.dotNum(v-if="item") 1
     // 加载中 ...
     transition(name="loading")
-      loading(v-show="showLoading")
+      loading(v-show="showLoading || loadRatings")
 
 </template>
 <style lang="scss" src="./shop.scss" scoped></style>
@@ -178,7 +180,6 @@ import loading from '@/components/loading'
 import buyCart from '@/components/buyCart'
 import {msiteAddress, shopDetails, foodMenu, getRatingList, ratingScores, ratingTags} from '@/service/api'
 import BScroll from 'better-scroll'
-
 
 export default {
   name: 'Shop',
@@ -216,12 +217,22 @@ export default {
       foodScroll: null,                      //食品列表scroll
       menuIndex: 0,                          //已选菜单索引值，默认为0
       menuIndexChange: true,                 //解决选中index时，scroll监听事件重复判断设置index的bug
-      ratingTageIndex: 0                       // 评价分类索引
+      ratingTageIndex: 0,                       // 评价分类索引
+      ratingTagName: '',                         //评论的类型
+      ratingScroll: null,                      //评论页Scroll
+      preventRepeatRequest: false,
+      loadRatings: false
     }
+  },
+  mixins: [loadMore, getImgPath],
+  components: {
+    loading,
+    buyCart,
+    ratingStar
   },
   computed: {
     ...mapState([
-      'latitude', 'longitude','cartList'
+      'latitude', 'longitude', 'cartList'
     ]),
     //当前商店购物信息(商铺切换，shopId变化)
     shopCart: function() {
@@ -252,11 +263,6 @@ export default {
       });
       return num;
     }
-  },
-  mixins: [loadMore, getImgPath],
-  components: {
-    loading,
-    buyCart
   },
   created() {
     this.geohash = this.$route.query.geohash;
@@ -289,6 +295,30 @@ export default {
     cartFoodList: function (value){
       if(!value.length){
         this.showCartList = false;
+      }
+    },
+    //商品、评论切换状态
+    changeShowType: function(type) {
+      if(type == 'rating') {
+        this.$nextTick(() => {
+          this.ratingScroll = new BScroll('#ratingContainer', {
+            probeType: 3,
+            deceleration: 0.003,
+            bounce: false,
+            swipeTime: 2000,
+            click: true
+          });
+          // 鼠标滚轮滑动 和  点击鼠标左键滑动 不一样
+          this.ratingScroll.on('scroll', (pos) => {
+          // scroll 纵向滚动的位置区间是 0 - maxScrollY，并且 maxScrollY 是负值
+            if(Math.abs(Math.round(pos.y)) >= Math.abs(Math.round(this.ratingScroll.maxScrollY))) {
+              this.loaderMoreRating();
+              // 重新计算 better-scroll，当 DOM 结构发生变化的时候务必要调用确保滚动的效果正常。
+              this.ratingScroll.refresh();
+              
+            }
+          });
+        }); 
       }
     }
   },
@@ -509,8 +539,7 @@ export default {
             this.menuIndex = index;
             const activEl = this.$refs.wrapperMenu.querySelectorAll('.activity_menu')[0];
             // 滚动到指定的目标元素 (滚动到的目标元素,滚动动画执行的时长（单位 ms）,相对于目标元素的横轴偏移量,相对于目标元素的纵轴偏移量)
-            menuScroll.scrollToElement(activEl, 800, 0, -(menuHeight/2 -50)); 
-            console.log('menuHeight/2 -50 = '+ menuHeight/2 -50);                       
+            menuScroll.scrollToElement(activEl, 800, 0, -(menuHeight/2 -50));                      
           }
         });
       });
@@ -526,22 +555,37 @@ export default {
         this.menuIndexChange = true;
       });
     },
-    //商品、评论切换状态
-    changeShowType(type) {
-      if(type == 'food') {
-
-      } else if(type == 'rating') {
-
-      }
+    //获取不同类型的评论列表
+    async changeTagIndex(index, name){
+      this.ratingTageIndex = index;
+      this.ratingTagName = name;
+      this.ratingOffset = 0;
+      let r = await getRatingList(this.shopId, this.ratingOffset, name);
+      this.ratingList = [...r];
+      this.$nextTick(() => {
+        this.ratingScroll.refresh();
+      });
     },
     //加载更多评论
-    loaderMoreRating () {},
-    
-    
-    changeTgeIndex(index, name){
-
+    async loaderMoreRating () {
+      if(this.preventRepeatRequest) { return ;}
+      this.loadRatings = true;
+      this.preventRepeatRequest = true;
+      this.ratingOffset += 10;
+      let r = await getRatingList(this.shopId, this.ratingOffset, this.ratingTagName);
+      this.ratingList = [...this.ratingList, ...r];
+      this.loadRatings = false;
+      if(r.length >= 10) {
+        this.preventRepeatRequest = false;
+      }
     },
-    showTitleDetail (index) {},
+    showTitleDetail (index) {
+      if(this.TitleDetailIndex == index ) {
+        this.TitleDetailIndex = null;
+      } else {
+        this.TitleDetailIndex = index;
+      }
+    },
     goback(){
       this.$router.go(-1);
     }
