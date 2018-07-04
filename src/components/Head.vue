@@ -2,8 +2,7 @@
   header
     //- 左
     slot(name="logo")
-    router-link.back(v-if="goBack" :to="{name: ''}")
-      img(:src="back")
+    img.back(v-if="goBack" @click="$router.go(-1)" :src="back")
     slot(name="search")
     //- 中
     h2.title(v-if="headTitle") {{headTitle}}     

@@ -5,13 +5,13 @@
       header
         router-link.goback(:to="{name: 'Msite'}")
           img.back(:src="back")
-        router-link.shopInfo(:to="{name: 'Msite'}" v-if="shopDetailData")
+        router-link.shopInfo(:to="{name: 'ShopDetail'}" v-if="shopDetailData")
           img.shop_pic(:src="imgBaseUrl + shopDetailData.image_path")
           .info
             h3 {{shopDetailData.name}}
             p 商家配送 / {{shopDetailData.order_lead_time}}分钟送达 / 配送费¥{{shopDetailData.float_delivery_fee}}
             p.ellipsis 公告：{{shopDetailData.promotion_info}}
-        router-link.next(:to="{name: 'Msite'}")
+        router-link.next(:to="{name: 'ShopDetail'}")
           img.gonext(:src="go")
       ul.chooseType(ref="choodeType")
         li

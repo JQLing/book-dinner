@@ -1,6 +1,6 @@
 // https://www.cnblogs.com/wong-do/p/9059540.html
 // https://blog.csdn.net/zjsfdx/article/details/80432793
-
+// 非按需加载写法
 // import Vue from 'vue'
 // import Router from 'vue-router'
 import App from '../App'
@@ -25,8 +25,10 @@ const Msite = r => require.ensure([], () => r(require('../pages/msite/msite')), 
 const Search = r => require.ensure([], () => r(require('../pages/search/search')), 'search')
 const Food = r => require.ensure([], () => r(require('../pages/food/food')), 'food')
 const Shop = r => require.ensure([], () => r(require('../pages/shop/shop')), 'shop')
+const ShopDetail = r => require.ensure([], () => r(require('../pages/shop/children/shopDetail')), 'shopDetail')
 const Order = r => require.ensure([], () => r(require('../pages/order/order')), 'order')
 const Profile = r => require.ensure([], () => r(require('../pages/profile/profile')), 'profile')
+
 
 
 export default [
@@ -75,16 +77,16 @@ export default [
           path: '/shop',
           name: 'Shop',
           component: Shop,
-          // children: [
+          children: [
             // {
             //   path: 'foodDetail',    //食品详情页
             //   name: 'FoodDetail',
             //   component: FoodDetail
             // },
-            // {
-            //   path: 'shopDetail',    //商铺详情页
-            //   name: 'ShopDetail',
-            //   component: ShopDetail,
+            {
+              path: 'shopDetail',    //商铺详情页
+              name: 'ShopDetail',
+              component: ShopDetail
             //   children: [
             //     {
             //       path: 'shopSafe',    //商铺安全认证页
@@ -92,8 +94,8 @@ export default [
             //       component: ShopSafe,
             //     }
             //   ]
-            // }
-          // ]
+            }
+          ]
         },
         //
         {
